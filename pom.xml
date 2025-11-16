@@ -145,7 +145,6 @@
                     </execution>
                     <!-- Verificação de cobertura desabilitada temporariamente -->
                     <!-- Será habilitada após criar testes suficientes para 75% -->
-                    <!--
                     <execution>
                         <id>jacoco-check</id>
                         <goals>
@@ -166,7 +165,7 @@
                             </rules>
                         </configuration>
                     </execution>
-                    -->
+                
                 </executions>
             </plugin>
 
