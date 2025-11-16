@@ -1,1 +1,11 @@
-/nbproject/
+target/
+*.class
+*.log
+*.iml
+*.jar
+*.war
+*.ear
+.idea/
+out/
+build/
+nbproject/private/
