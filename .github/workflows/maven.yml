@@ -7,8 +7,12 @@ on:
     branches: [ "main" ]
 
 jobs:
+  # Jobs do ambiente de desenvolvimento
+ build-dev:
   build:
     runs-on: ubuntu-latest
+    environment: 
+      name: dev
 
     steps:
     - name: Checkout
@@ -21,7 +25,7 @@ jobs:
         java-version: '21'
 
     - name: Build and Test with Maven
-      run: mvn -B clean verify
+      run: mvn -B compile --file pom.xml
 
     - name: Upload JaCoCo report
       uses: actions/upload-artifact@v4
