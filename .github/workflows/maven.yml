@@ -6,7 +6,8 @@ on:
   pull_request:
     branches: [ "main" ]
 
-jobs: 
+jobs:
+  # Jobs para build em desenvolvimento 
   build-dev:
     runs-on: ubuntu-latest
     environment:
@@ -22,7 +23,7 @@ jobs:
         cache: maven
     - name: Compila o projeto com Maven
       run: mvn -B compile --file pom.xml
-
+  # Jobs para build em homologação
   build-hmg:
         runs-on: ubuntu-latest
         environment:
@@ -42,6 +43,26 @@ jobs:
         - name: Testa o projeto com Maven
           run: mvn -B test --file pom.xml
 
+      #Executaospassosda análisedo códigocom o sonarcube
+        - name: Cache dos pacotesdo SonarCloud
+          uses: actions/cache@v4
+          with:
+            path: ~/.sonar/cache
+            key: ${{ runner.os}}-sonar
+            restore-keys: ${{ runner.os}}-sonar
+        - name: Cache dos pacotesdo Maven
+          uses: actions/cache@v4
+          with:
+            path: ~/.m2
+            key: ${{ runner.os}}-m2-${{ hashFiles('**/pom.xml') }}
+            restore-keys: ${{ runner.os}}-m2
+        - name: Verificao projetocom Maven e Jacoco
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}} 
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN}}
+          run: mvn-B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar-Dsonar.projectKey=B3ckeriz_A3-
+  
+ # Jobs para build em produção
   build-prd:
     runs-on: ubuntu-latest
     environment:
