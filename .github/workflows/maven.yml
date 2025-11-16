@@ -8,8 +8,7 @@ on:
 
 jobs:
   # Jobs do ambiente de desenvolvimento
- build-dev:
-  build:
+  build-dev:
     runs-on: ubuntu-latest
     environment: 
       name: dev
