@@ -37,19 +37,19 @@ public class AlunoDAO {
         return maiorID;
     }
 
-    public static Connection getConexao() {
-        try {
-            String url = System.getenv("DATABASE_URL");
-            if (url == null || url.isEmpty()) {
-                // Usa banco em memória como fallback
-                url = "jdbc:sqlite:database.db:";
-            }
-            System.out.println("URL utilizada: " + url);
-            return DriverManager.getConnection(url);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+   public static Connection getConexao() {
+    try {
+        String url = System.getenv("DATABASE_URL");
+        if (url == null || url.isEmpty()) {
+            //  arquivo persistente ao invés de memória
+            url = "jdbc:sqlite:banco_escola.db";
         }
+        System.out.println("URL utilizada: " + url);
+        return DriverManager.getConnection(url);
+    } catch (SQLException e) {
+        throw new RuntimeException(e);
     }
+}
 
     private void criarTabelaSeNecessario() {
         String sqlAlunos = """
