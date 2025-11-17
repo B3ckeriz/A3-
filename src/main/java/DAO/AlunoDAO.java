@@ -42,7 +42,7 @@ public class AlunoDAO {
         String url = System.getenv("DATABASE_URL");
         if (url == null || url.isEmpty()) {
             //  arquivo persistente ao invés de memória
-            url = "jdbc:sqlite:banco_escola.db";
+            url = "jdbc:sqlite:database.db";
         }
         System.out.println("URL utilizada: " + url);
         return DriverManager.getConnection(url);
