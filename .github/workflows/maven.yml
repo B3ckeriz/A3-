@@ -62,13 +62,12 @@ jobs:
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN}}
           run: >
             mvn -B verify
-            org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
-            -Dsonar.projectKey=B3ckeriz_A3-
-            -Dsonar.organization=b3ckeriz
-            -Dsonar.host.url=https://sonarcloud.io
-            -Dsonar.token=${{ secrets.SONAR_TOKEN }}
-            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
-
+              org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+              -Dsonar.projectKey=B3ckeriz_A3-
+              -Dsonar.organization=b3ckeriz
+              -Dsonar.host.url=https://sonarcloud.io
+              -Dsonar.token=$SONAR_TOKEN
+              -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
         # Jobs para build em produção
   build-prd:
     runs-on: ubuntu-latest
