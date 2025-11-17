@@ -23,7 +23,7 @@ public class ProfessorDAO {
         int maiorID = 0;
         
         try {
-            Statement stmt = this.getConexao().createStatement();
+            Statement stmt = getConexao().createStatement();
             ResultSet res = stmt.executeQuery("SELECT MAX(id) id FROM tb_professores");
             res.next();
             maiorID = res.getInt("id");
@@ -37,21 +37,18 @@ public class ProfessorDAO {
     }
     
     // Estabelece a conexão com o banco de dados SQLite
-    public static Connection getConnection() {
+    public static Connection getConexao() {
         try {
             String url = System.getenv("DATABASE_URL");
             if (url == null || url.isEmpty()) {
-                url = "jdbc:sqlite:database.db"; // default local
+                // Usa banco em memória como fallback
+                url = "jdbc:sqlite::memory:";
             }
             System.out.println("URL utilizada: " + url);
             return DriverManager.getConnection(url);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public Connection getConexao() {
-        return getConnection();
     }
 
 
@@ -82,7 +79,7 @@ public class ProfessorDAO {
         MinhaLista2.clear(); // Limpa o arrayList
 
         try {
-            Statement stmt = this.getConexao().createStatement();
+            Statement stmt = getConexao().createStatement();
             ResultSet res = stmt.executeQuery("SELECT * FROM tb_professores");
             while (res.next()) {
 
@@ -113,7 +110,7 @@ public class ProfessorDAO {
         String sql = "INSERT INTO tb_professores(id,nome,idade,campus,cpf,contato,titulo,salario) VALUES(?,?,?,?,?,?,?,?)";
 
         try {
-            PreparedStatement stmt = this.getConexao().prepareStatement(sql);
+            PreparedStatement stmt = getConexao().prepareStatement(sql);
 
             stmt.setInt(1, objeto.getId());
             stmt.setString(2, objeto.getNome());
@@ -138,7 +135,7 @@ public class ProfessorDAO {
     // Deleta um professor específico pelo seu campo ID
     public boolean DeleteProfessorBD(int id) {
         try {
-            Statement stmt = this.getConexao().createStatement();
+            Statement stmt = getConexao().createStatement();
             stmt.executeUpdate("DELETE FROM tb_professores WHERE id = " + id);
             stmt.close();            
             
@@ -154,7 +151,7 @@ public class ProfessorDAO {
         String sql = "UPDATE tb_professores set nome = ? ,idade = ? ,campus = ? ,cpf = ? ,contato = ? ,titulo = ? ,salario = ? WHERE id = ?";
 
         try {
-            PreparedStatement stmt = this.getConexao().prepareStatement(sql);
+            PreparedStatement stmt = getConexao().prepareStatement(sql);
 
             
             stmt.setString(1, objeto.getNome());
@@ -183,7 +180,7 @@ public class ProfessorDAO {
         objeto.setId(id);
         
         try {
-            Statement stmt = this.getConexao().createStatement();
+            Statement stmt = getConexao().createStatement();
             ResultSet res = stmt.executeQuery("SELECT * FROM tb_professores WHERE id = " + id);
             res.next();
 

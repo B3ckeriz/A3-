@@ -38,25 +38,20 @@ public class AlunoDAO {
         return maiorID;
     }
 
-    public static Connection getConnection() {
+    public static Connection getConexao() {
         try {
             String url = System.getenv("DATABASE_URL");
 
             if (url == null || url.isEmpty()) {
-                url = "jdbc:sqlite:database.db";
+                // Usa banco em memória como fallback
+                url = "jdbc:sqlite::memory:";
             }
-
-            logger.info("URL utilizada: " + url);
+            System.out.println("URL utilizada: " + url);
             return DriverManager.getConnection(url);
 
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Erro ao conectar ao banco", e);
-            throw new DatabaseException("Erro ao conectar ao banco", e);
+            throw new RuntimeException(e);
         }
-    }
-
-    public Connection getConexao() {
-        return getConnection();
     }
 
     private void criarTabelaSeNecessario() {
