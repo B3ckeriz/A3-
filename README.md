@@ -1,29 +1,52 @@
-# A3 
-A3 Gestão e qualidade de software
+# Sistema de Gestão de Alunos e Professores  
+Projeto A3 – Gestão e Qualidade de Software  
 
-Projeto de Testes Automatizados em Java:
+## Descrição Geral  
+Este repositório contém o desenvolvimento do Plano de Testes e da automação aplicada ao Sistema de Gestão de Alunos e Professores. O projeto utiliza práticas de qualidade de software, incluindo testes automatizados, integração contínua e análise estática do código.
 
-    Este projeto tem como objetivo demonstrar a criação e execução de testes automatizados utilizando Java, Maven e JUnit 5, com GitHub Actions.
+O objetivo principal é demonstrar a aplicação de testes unitários e de integração em um sistema legado, bem como implementar um pipeline de CI/CD completo utilizando Maven, GitHub Actions e SonarCloud.
 
+---
 
-Tecnologias Utilizadas:
+## Tecnologias Utilizadas  
+- **Java** – Linguagem principal da aplicação  
+- **Maven** – Automação de build e gerenciamento de dependências  
+- **JUnit 5** – Framework para criação e execução de testes automatizados  
+- **GitHub Actions** – Plataforma de CI/CD para execução automática dos testes  
+- **Jacoco** – Ferramenta de medição de cobertura de código  
+- **SonarCloud** – Análise estática para avaliação contínua da qualidade  
 
-    Java — Linguagem principal do projeto
+---
 
-    Maven — Gerenciador de dependências e automação de build
+## Integração Contínua e Qualidade  
+[![Build Status](https://github.com/B3ckeriz/A3gerenciamentoDeAlunos/actions/workflows/maven.yml/badge.svg)](https://github.com/B3ckeriz/A3gerenciamentoDeAlunos/actions) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=B3ckeriz_A3-&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=B3ckeriz_A3-) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=B3ckeriz_A3-&metric=coverage)](https://sonarcloud.io/summary/new_code?id=B3ckeriz_A3-) [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=B3ckeriz_A3-&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=B3ckeriz_A3-) 
 
-    JUnit 5 — Framework para criação e execução de testes automatizados
+---
 
-    GitHub Actions — Plataforma de CI/CD para automação de testes e builds
+## Integrantes  
+| Nome | RA | GitHub |
+|------|---------|---------|
+| Júlia Schaden Exterkoetter | 10722118399 | https://github.com/juliaexterkoetter |
+| Kaio Wellington Farias da Costa | 10724113141 | https://github.com/DyreDev |
+| Pedro Furlan Becker | 10722127773 | https://github.com/B3ckeriz |
+| Rafaela Araujo Fontoura da Rosa | 10724112362 | https://github.com/RafaArauj |
 
+---
 
-Integrantes:
+## Estrutura do Projeto  
+- `src/main/java` – Implementação do sistema  
+- `src/test/java` – Testes unitários  
+- `pom.xml` – Configuração do Maven, plugins e dependências  
+- `.github/workflows` – Pipelines de CI/CD  
+- Integração com Jacoco e SonarCloud configurada para cada push na branch `main`
 
-    Júlia Schaden Exterkoetter - RA: 10722118399;
-    Kaio Wellington Farias da Costa - RA: 10724113141;
-    Pedro Furlan Becker - RA: 10722127773 e
-    Rafaela Araujo Fontoura Da Rosa - RA: 10724112362. 
+---
 
-    B3ckeriz/A3gerenciamentoDeAlunos](https://github.com/B3ckeriz/A3gerenciamentoDeAlunos/workflows/[Integra%C3%A7%C3%A3o%20continua](https://img.shields.io/badge/%5B!%5BQuality%20Gate%20Status%5D(https%3A%2F%2Fsonarcloud.io%2Fapi%2Fproject_badges%2Fmeasure%3Fproject%3DB3ckeriz_A3-%26metric%3Dalert_status)%5D(https%3A%2F%2Fsonarcloud.io%2Fsummary%2Fnew_code%3Fid%3DB3ckeriz_A3-)%20de%20Java%20com%20Maven/badge.svg)](https://github.com/B3ckeriz/A3gerenciamentoDeAlunos/actions)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=B3ckeriz_A3-&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=B3ckeriz_A3-)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=B3ckeriz_A3-&metric=coverage)](https://sonarcloud.io/summary/new_code?id=B3ckeriz_A3-)
+## Objetivo Acadêmico  
+Este repositório atende aos requisitos da A3 de Gestão e Qualidade de Software, incluindo:  
+- Planejamento e execução de testes  
+- Construção de pipelines automatizados  
+- Avaliação de métricas de qualidade  
+- Documentação técnica conforme normas institucionais  
+
+---
