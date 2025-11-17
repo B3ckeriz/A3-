@@ -144,7 +144,7 @@
 				</configuration>
 			</plugin>
 
-			<!-- JACOCO (COBERTURA)
+			<!-- JACOCO (COBERTURA) -->
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
@@ -165,36 +165,9 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin> -->
-
-			<!-- JaCoCo -->
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.11</version>
-				<executions>
-					<!-- Instrumenta os testes -->
-					<execution>
-						<id>prepare-agent</id>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-
-					<!-- Gera relatório (HTML e XML) -->
-					<execution>
-						<id>report</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-						<configuration>
-							<!-- local padrão de saída: target/site/jacoco -->
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
-			
+
+
 			<!-- GERAR JAR EXECUTÁVEL -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
