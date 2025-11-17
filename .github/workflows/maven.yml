@@ -41,6 +41,8 @@ jobs:
             distribution: 'temurin'
             cache: maven
         - name: Testa o projeto com Maven
+          env:
+            DATABASE_URL: "jdbc:sqlite::memory:"
           run: mvn -B test --file pom.xml
 
       #Executaospassosda análisedo códigocom o sonarcube
