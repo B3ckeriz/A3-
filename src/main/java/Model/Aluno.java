@@ -95,7 +95,7 @@ public class Aluno extends Pessoa {
     // Carrega as informações de um aluno específico com base no ID
     public Aluno carregaAluno(int id) {
         dao.carregaAluno(id);
-        return null;
+        return dao.carregaAluno(id);
     }
     
     // Retorna o maior ID do banco de dados

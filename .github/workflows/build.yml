@@ -41,4 +41,5 @@ jobs:
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          DATABASE_URL: "jdbc:sqlite::memory:"
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=B3ckeriz_A3- -Dsonar.organization=b3ckeriz -Dsonar.login=$SONAR_TOKEN -Dsonar.host.url=https://sonarcloud.io
