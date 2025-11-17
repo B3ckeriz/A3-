@@ -42,7 +42,7 @@ public class AlunoDAO {
             String url = System.getenv("DATABASE_URL");
             if (url == null || url.isEmpty()) {
                 // Usa banco em memória como fallback
-                url = "jdbc:sqlite::memory:";
+                url = "jdbc:sqlite::database.db:";
             }
             System.out.println("URL utilizada: " + url);
             return DriverManager.getConnection(url);
