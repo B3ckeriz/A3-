@@ -1,4 +1,4 @@
-package view_temp;
+package view;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 

@@ -1,4 +1,4 @@
-package view_temp;
+package view;
 
 import model.Aluno;
 import java.sql.SQLException;

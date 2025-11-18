@@ -1,6 +1,9 @@
-package view_temp;
+package view;
 
 import com.formdev.flatlaf.json.ParseException;
+import java.sql.SQLException;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -8,18 +11,17 @@ import javax.swing.text.MaskFormatter;
 import model.Professor;
 import java.util.ArrayList;
 
-// Classe EditarProfessor herda as características de javax.swing.JFrame
-public class EditarProfessor extends javax.swing.JFrame {
+// Classe CadastroProfessor herda as características de javax.swing.JFrame
+public class CadastroProfessor extends javax.swing.JFrame {
     
     private Professor objetoProfessor; // Apontador para a Classe Professor
     
     // Construtor
-    public EditarProfessor() throws java.text.ParseException {
+    public CadastroProfessor() throws java.text.ParseException {
         initComponents();
         formatarCampos();
-        preencheCampos();
         getRootPane().setDefaultButton(this.bConfirmar);
-        this.objetoProfessor = new Professor();  
+        this.objetoProfessor = new Professor();
     }
 
     /**
@@ -38,22 +40,22 @@ public class EditarProfessor extends javax.swing.JFrame {
         bConfirmar = new javax.swing.JButton();
         titulo = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
+        idade = new com.toedter.calendar.JDateChooser();
         jLabel8 = new javax.swing.JLabel();
         cpfFormatado = new javax.swing.JFormattedTextField();
         jLabel9 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         salarioFormatado = new javax.swing.JFormattedTextField();
         jLabel5 = new javax.swing.JLabel();
-        idade = new javax.swing.JTextField();
         contatoFormatado = new javax.swing.JFormattedTextField();
-        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Editar Professor");
+        setTitle("Cadastro de Professor");
         setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Editar Professor");
+        jLabel1.setText("Cadastro de Professor");
 
         campus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "Continente", "Dib Mussi", "Ilha", "Pedra Branca", "Trajano", "Tubarão" }));
         campus.setName(""); // NOI18N
@@ -84,14 +86,17 @@ public class EditarProfessor extends javax.swing.JFrame {
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel6.setText("Título:");
 
+        idade.setBackground(new java.awt.Color(153, 153, 153));
+        idade.setForeground(new java.awt.Color(51, 51, 51));
+
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel8.setText("Idade:");
+        jLabel8.setText("Nasc.:");
 
         jLabel9.setText("CPF:");
 
-        jLabel5.setText("Salário:");
+        jLabel4.setText("Contato:");
 
-        jLabel7.setText("Contato:");
+        jLabel5.setText("Salário:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -135,7 +140,7 @@ public class EditarProfessor extends javax.swing.JFrame {
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addComponent(cpfFormatado)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel7)
+                                        .addComponent(jLabel4)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(contatoFormatado, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -158,13 +163,12 @@ public class EditarProfessor extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cpfFormatado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9)
-                    .addComponent(contatoFormatado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7))
+                    .addComponent(jLabel4)
+                    .addComponent(contatoFormatado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel8)
-                        .addComponent(idade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(idade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(salarioFormatado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel5)))
@@ -193,7 +197,7 @@ public class EditarProfessor extends javax.swing.JFrame {
             MaskFormatter mask3 = new MaskFormatter("R$#####");
             mask3.install(salarioFormatado);
         } catch (ParseException ex){
-            JOptionPane.showMessageDialog(rootPane, "Erro ao formatar campos", "ERRO", JOptionPane.ERROR);
+            JOptionPane.showMessageDialog(null, "Erro ao formatar campos", "ERRO", JOptionPane.ERROR);
         }
     }
     
@@ -203,11 +207,29 @@ public class EditarProfessor extends javax.swing.JFrame {
         minhalista = objetoProfessor.getMinhaLista();
 
         for (Professor a : minhalista) {
-            if ((cpf.equals(a.getCpf())) && (a.getId() != Integer.parseInt(GerenciaProfessores.listaDados[7]))){
+            if ((cpf.equals(a.getCpf()))){
                 return true;
             }
         }
         return false;
+    }
+    
+    // Método que calcula a idade do professor cadastrado com base na data de nascimento recebida
+    private int calculaIdade(java.util.Date dataNasc){
+        Calendar dataNascimento = new GregorianCalendar();
+        dataNascimento.setTime(dataNasc);
+        
+        Calendar today = Calendar.getInstance();
+        
+        int age = today.get(Calendar.YEAR) - dataNascimento.get(Calendar.YEAR);
+        
+        dataNascimento.add(Calendar.YEAR, age);
+        
+        if (today.before(dataNascimento)){
+            age--;
+        }
+        
+        return age;
     }
     
     // Método que realiza a validação dos campos formatados (retornando somente os números)
@@ -223,57 +245,7 @@ public class EditarProfessor extends javax.swing.JFrame {
         return str;
     }
     
-    // Método que altera o formato do atributo salário para setar o campo na função de edit
-    private String editSalario(String input){
-        String str = "";
-        
-        for (int i = 0; i < input.length() - 2 ; i++){
-            str += input.charAt(i) + "";
-        }
-        
-        return str;
-    }
-    
-    // Método responsável por setar os campos com as informações do objeto a ser editado
-    private void preencheCampos(){
-        String[] arrayCampus = {"-", 
-                "Continente",
-                "Dib Mussi",
-                "Ilha",
-                "Pedra Branca",
-                "Trajano",
-                "Tubarão"};
-        String[] arrayTitulo = {"-",
-                "Graduação",
-                "Especialização",
-                "Mestrado",
-                "Doutorado"};
-        
-        int indexCampus = 0;
-        int indexTitulo = 0;
-        
-        for (int i = 0; i < 7; i++){
-            if (GerenciaProfessores.listaDados[2].equalsIgnoreCase(arrayCampus[i])){
-                indexCampus = i;
-            }
-        }
-        
-        for (int j = 0; j < 5; j++){
-            if (GerenciaProfessores.listaDados[5].equalsIgnoreCase(arrayTitulo[j])){
-                indexTitulo = j;
-            }
-        }
-           
-        this.nome.setText(GerenciaProfessores.listaDados[0]);
-        this.idade.setText(GerenciaProfessores.listaDados[1]);
-        this.campus.setSelectedIndex(indexCampus);
-        this.cpfFormatado.setText(GerenciaProfessores.listaDados[3]);
-        this.contatoFormatado.setText(GerenciaProfessores.listaDados[4]);
-        this.titulo.setSelectedIndex(indexTitulo);
-        this.salarioFormatado.setText(editSalario(GerenciaProfessores.listaDados[6]));
-    }
-    
-    // Action: confirmar a atualização com as informações preenchidas
+    // Action: confirmar as informações preenchidas
     private void bConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bConfirmarActionPerformed
         try {
             String nome = "";
@@ -282,7 +254,6 @@ public class EditarProfessor extends javax.swing.JFrame {
             String contato = "";
             int idade = 0;
             int salario = 0;
-            int id = Integer.parseInt(GerenciaProfessores.listaDados[7]);
             String titulo = "";
             String[] arrayCampus = {"-", 
                 "Continente",
@@ -328,13 +299,10 @@ public class EditarProfessor extends javax.swing.JFrame {
             }
             
             // Setando idade
-            if (Integer.parseInt(this.idade.getText()) < 11){
+            if (calculaIdade(this.idade.getDate()) < 11){
                 throw new Mensagens("Idade inválida");
-            } 
-            if (this.idade.getText().equals("")){
-                throw new Mensagens("Idade não pode ser vazio");
             } else {
-                idade = Integer.parseInt(this.idade.getText());
+                idade = calculaIdade(this.idade.getDate());
             }
             
             // Setando salário
@@ -352,21 +320,26 @@ public class EditarProfessor extends javax.swing.JFrame {
             }
             
             // Adicionando dados validados no database
-            if (this.objetoProfessor.UpdateProfessorBD(campus, cpf, contato, titulo, salario, id, nome, idade)){
-                JOptionPane.showMessageDialog(rootPane, "Professor alterado com sucesso!");
-                
+            if (this.objetoProfessor.InsertProfessorBD(campus, cpf, contato, titulo, salario, nome, idade)){
+                JOptionPane.showMessageDialog(rootPane, "Professor cadastrado com sucesso!"); 
                 this.dispose();
             }
             
         // Capturando exceções    
         } catch (Mensagens erro) {
-            JOptionPane.showMessageDialog(rootPane, erro.getMessage());
+            JOptionPane.showMessageDialog(null, erro.getMessage());
         } catch (NumberFormatException erro2) {
-            JOptionPane.showMessageDialog(rootPane, "Informe um número.");
+            JOptionPane.showMessageDialog(null, "Informe um número.");
+        } catch (SQLException ex) {
+            Logger.getLogger(CadastroProfessor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NullPointerException erro3){
+            JOptionPane.showMessageDialog(null, "Data de nascimento não pode ser vazia");
         }
+        
+        
     }//GEN-LAST:event_bConfirmarActionPerformed
     
-    // Action: cancelar a ação de editar professor
+    // Action: cancelar a ação de cadastrar aluno
     private void bCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCancelarActionPerformed
         this.dispose();
     }//GEN-LAST:event_bCancelarActionPerformed
@@ -374,6 +347,8 @@ public class EditarProfessor extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
+    
+    // Rodando a tela de cadastro
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -388,18 +363,14 @@ public class EditarProfessor extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(EditarProfessor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadastroProfessor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(EditarProfessor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadastroProfessor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(EditarProfessor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadastroProfessor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(EditarProfessor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadastroProfessor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -409,9 +380,9 @@ public class EditarProfessor extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new EditarProfessor().setVisible(true);
+                    new CadastroProfessor().setVisible(true);
                 } catch (java.text.ParseException ex) {
-                    Logger.getLogger(EditarProfessor.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(CadastroProfessor.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
@@ -423,13 +394,13 @@ public class EditarProfessor extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> campus;
     private javax.swing.JFormattedTextField contatoFormatado;
     private javax.swing.JFormattedTextField cpfFormatado;
-    private javax.swing.JTextField idade;
+    private com.toedter.calendar.JDateChooser idade;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JTextField nome;

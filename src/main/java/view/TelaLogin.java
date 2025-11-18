@@ -1,4 +1,4 @@
-package view_temp;
+package view;
 
 import DAO.AlunoDAO;
 import java.util.logging.Level;

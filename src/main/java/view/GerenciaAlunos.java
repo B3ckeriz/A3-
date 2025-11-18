@@ -1,4 +1,4 @@
-package view_temp;
+package view;
 
 import model.Aluno;
 import java.io.File;
@@ -119,7 +119,7 @@ public class GerenciaAlunos extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Cadastro de Alunos");
 
-        refresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view_temp/refresh.png"))); // NOI18N
+        refresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/refresh.png"))); // NOI18N
         refresh.setText("  Atualizar tabela");
         refresh.setToolTipText("CTRL+R");
         refresh.addActionListener(new java.awt.event.ActionListener() {
