@@ -1,4 +1,4 @@
-package model_temp;
+package model;
 
 public abstract class Pessoa {
 

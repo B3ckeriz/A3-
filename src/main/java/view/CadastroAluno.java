@@ -1,6 +1,6 @@
-package view_temp;
+package view;
 
-import model_temp.Aluno;
+import model.Aluno;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;

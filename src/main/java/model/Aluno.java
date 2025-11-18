@@ -1,4 +1,4 @@
-package model_temp;
+package model;
 
 import java.util.*;
 import DAO.AlunoDAO;

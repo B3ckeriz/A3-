@@ -1,6 +1,6 @@
 package DAO;
 
-import model_temp.Professor;
+import model.Professor;
 import java.util.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
