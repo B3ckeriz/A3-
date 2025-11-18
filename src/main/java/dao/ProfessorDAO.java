@@ -85,8 +85,12 @@ public class ProfessorDAO {
              ResultSet res = stmt.executeQuery(sql)) {
 
             while (res.next()) {
+
+                String campus = res.getString("campus");
+                if (campus == null) campus = "Não informado";
+
                 Professor p = new Professor(
-                        res.getString("campus"),
+                        campus,
                         res.getString("cpf"),
                         res.getString("contato"),
                         res.getString("titulo"),
@@ -95,6 +99,7 @@ public class ProfessorDAO {
                         res.getString("nome"),
                         res.getInt("idade")
                 );
+
                 listaProfessores.add(p);
             }
 
@@ -184,6 +189,7 @@ public class ProfessorDAO {
 
             try (ResultSet res = stmt.executeQuery()) {
                 if (res.next()) {
+
                     Professor p = new Professor();
                     p.setId(id);
                     p.setNome(res.getString("nome"));
@@ -193,10 +199,11 @@ public class ProfessorDAO {
                     p.setContato(res.getString("contato"));
                     p.setTitulo(res.getString("titulo"));
                     p.setSalario(res.getInt("salario"));
+
                     return p;
                 }
             }
-        
+
         } catch (SQLException erro) {
             throw new RuntimeException("Erro ao carregar professor", erro);
         }
