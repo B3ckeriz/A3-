@@ -1,9 +1,9 @@
-package principal;
+package principal_temp;
 
 import javax.swing.JOptionPane;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
-import view.TelaLogin;
+import view_temp.TelaLogin;
 
 // MAIN CLASS
 public class Principal {

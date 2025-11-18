@@ -1,6 +1,6 @@
 package DAO;
 
-import model.Aluno;
+import model_temp.Aluno;
 
 import java.util.*;
 import java.util.logging.Level;

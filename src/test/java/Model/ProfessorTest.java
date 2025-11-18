@@ -1,6 +1,6 @@
 package Model;
 
-import model.Professor;
+import model_temp.Professor;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;

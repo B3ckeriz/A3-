@@ -1,6 +1,6 @@
-package view;
+package view_temp;
 
-import model.Aluno;
+import model_temp.Aluno;
 import javax.swing.JOptionPane;
 
 // Classe EditarAluno herda as características de javax.swing.JFrame

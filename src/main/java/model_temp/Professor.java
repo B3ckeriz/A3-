@@ -1,4 +1,4 @@
-package model;
+package model_temp;
 
 import DAO.ProfessorDAO;
 import java.sql.SQLException;

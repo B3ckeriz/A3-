@@ -1,6 +1,6 @@
 package Model;
 
-import model.Aluno;
+import model_temp.Aluno;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
