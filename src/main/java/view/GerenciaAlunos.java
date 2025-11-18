@@ -4,7 +4,8 @@ import model.Aluno;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
+//import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -368,7 +369,7 @@ public class GerenciaAlunos extends javax.swing.JFrame {
             if (respostaUsuario == 0) {// clicou em SIM
 
                 // Envia os dados para o Professor processar
-                if (this.objetoAluno.DeleteAlunoBD(id)) {
+                if (this.objetoAluno.deleteAlunoBD(id)) {
                     JOptionPane.showMessageDialog(rootPane, "Cadastro apagado com sucesso!");
                 }
             }
@@ -420,8 +421,9 @@ public class GerenciaAlunos extends javax.swing.JFrame {
         DefaultTableModel modelo = (DefaultTableModel) this.jTableAlunos.getModel();
         modelo.setNumRows(0);
 
-        ArrayList<Aluno> minhalista = new ArrayList<>();
-        minhalista = objetoAluno.getMinhaLista();
+       // ArrayList<Aluno> minhalista = new ArrayList<>();
+        //minhalista = objetoAluno.getMinhaLista();
+        List<Aluno> minhalista = objetoAluno.getMinhaLista();
 
         for (Aluno a : minhalista) {
             modelo.addRow(new Object[]{

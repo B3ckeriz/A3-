@@ -66,12 +66,11 @@ public class Aluno extends Pessoa {
     */
     
     // Retorna a lista de alunos do banco de dados
-    public ArrayList getMinhaLista() {
-        return dao.getMinhaLista();
-    }
-
+   public List<Aluno> getMinhaLista() {
+    return dao.getMinhaLista(); // Chama o DAO
+}
     // Cadastra novo aluno
-    public boolean InsertAlunoBD(String curso, int fase, String nome, int idade) throws SQLException {
+    public boolean insertAlunoBD(String curso, int fase, String nome, int idade) throws SQLException {
         int id = this.maiorID() + 1;
         Aluno objeto = new Aluno(curso, fase, id, nome, idade);
         dao.InsertAlunoBD(objeto);
@@ -80,13 +79,13 @@ public class Aluno extends Pessoa {
     }
 
     // Deleta um aluno específico pelo seu campo ID
-    public boolean DeleteAlunoBD(int id) {
+    public boolean deleteAlunoBD(int id) {
         dao.DeleteAlunoBD(id);
         return true;
     }
 
     // Edita um aluno específico pelo seu campo ID
-    public boolean UpdateAlunoBD(String curso, int fase, int id, String nome, int idade) {
+    public boolean updateAlunoBD(String curso, int fase, int id, String nome, int idade) {
         Aluno objeto = new Aluno(curso, fase, id, nome, idade);
         dao.UpdateAlunoBD(objeto);
         return true;

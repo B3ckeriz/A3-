@@ -231,7 +231,7 @@ public class EditarAluno extends javax.swing.JFrame {
             fase = arrayFases[this.fase.getSelectedIndex()];
             
             // Adicionando dados validados no database
-            if (this.objetoAluno.UpdateAlunoBD(curso, fase, id, nome, idade)){
+            if (this.objetoAluno.updateAlunoBD(curso, fase, id, nome, idade)){
                 JOptionPane.showMessageDialog(rootPane, "Aluno alterado com sucesso!");
                 
                 this.dispose();
