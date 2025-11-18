@@ -188,21 +188,23 @@ public int maiorID() throws SQLException {
         Professor objeto = new Professor();
         objeto.setId(id);
 
-        String query = "SELECT * FROM tb_professores WHERE id = " + id;
+        String query = "SELECT * FROM tb_professores WHERE id = ?";
 
-        try (Statement stmt = this.getConexao().createStatement();
-            ResultSet res = stmt.executeQuery(query)
-        ) {
-            if (res.next()){
-            objeto.setNome(res.getString("nome"));
-            objeto.setIdade(res.getInt("idade"));
-            objeto.setCampus(res.getString("campus"));
-            objeto.setCpf(res.getString("cpf"));
-            objeto.setContato(res.getString("contato"));
-            objeto.setTitulo(res.getString("titulo"));
-            objeto.setSalario(res.getInt("salario"));
-        } else {
-                throw new RuntimeException("Professor com ID " + id + " não encontrado.");
+        try (PreparedStatement stmt = this.getConexao().prepareStatement(query)){
+            stmt.setInt(1, id);
+
+            try(ResultSet res = stmt.executeQuery()) {
+                if (res.next()) {
+                    objeto.setNome(res.getString("nome"));
+                    objeto.setIdade(res.getInt("idade"));
+                    objeto.setCampus(res.getString("campus"));
+                    objeto.setCpf(res.getString("cpf"));
+                    objeto.setContato(res.getString("contato"));
+                    objeto.setTitulo(res.getString("titulo"));
+                    objeto.setSalario(res.getInt("salario"));
+                } else {
+                    throw new RuntimeException("Professor com ID " + id + " não encontrado.");
+                }
             }
         } catch (SQLException erro) {
             erro.printStackTrace();
