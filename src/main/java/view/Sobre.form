@@ -150,32 +150,22 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&#x2022; Lucas Felipe Rog&#xe9;rio"/>
+        <Property name="text" type="java.lang.String" value="&#x2022; J&#xu9;lia Schaden Exterkoetter	"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&#x2022; Rade Gabriel Farah "/>
+        <Property name="text" type="java.lang.String" value="&#x2022; Kaio Wellington Farias da Costa "/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&#x2022; Camille Zimmermann"/>
+        <Property name="text" type="java.lang.String" value="&#x2022; Pedro Furlan Becker	"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&#x2022; Pablo Nevado"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="jLabel6">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="&#x2022; Laura Maria Firta Foes"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="jLabel7">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="&#x2022; Julia Schaden Exterkoetter"/>
+        <Property name="text" type="java.lang.String" value="&#x2022; Rafaela Araujo Fontoura da Rosa	"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel8">
@@ -214,7 +204,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="12" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Florian&#xf3;polis, 2022"/>
+        <Property name="text" type="java.lang.String" value="Florian&#xf3;polis, 2025"/>
       </Properties>
     </Component>
   </SubComponents>

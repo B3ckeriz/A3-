@@ -27,7 +27,7 @@ public class AlunoDAO {
         criarTabelaSeNecessario();
     }
 
-    private static Connection getConexao() throws SQLException {
+    public Connection getConexao() throws SQLException {
         return DriverManager.getConnection(DATABASE_URL);
     }
 
