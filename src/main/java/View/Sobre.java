@@ -58,17 +58,13 @@ public class Sobre extends javax.swing.JFrame {
         setResizable(false);
         setType(java.awt.Window.Type.POPUP);
 
-        jLabel1.setText("• Lucas Felipe Rogério");
+        jLabel1.setText("• Júlia Schaden Exterkoetter");
 
-        jLabel3.setText("• Rade Gabriel Farah ");
+        jLabel3.setText("• Kaio Wellington Farias da Costa ");
 
-        jLabel4.setText("• Camille Zimmermann");
+        jLabel4.setText("• Pedro Furlan Becker");
 
-        jLabel5.setText("• Pablo Nevado");
-
-        jLabel6.setText("• Laura Maria Firta Foes");
-
-        jLabel7.setText("• Julia Schaden Exterkoetter");
+        jLabel5.setText("• Rafaela Araujo Fontoura da Rosa");
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -83,7 +79,7 @@ public class Sobre extends javax.swing.JFrame {
         jLabel11.setText("SISTEMAS DE INFORMAÇÃO");
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel9.setText("Florianópolis, 2022");
+        jLabel9.setText("Florianópolis, 2025");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
