@@ -188,13 +188,11 @@ public int maiorID() throws SQLException {
         Professor objeto = new Professor();
         objeto.setId(id);
 
-        Statement stmt = null;
-        ResultSet res = null;
-        
-        try {
-            stmt = this.getConexao().createStatement();
-            res = stmt.executeQuery("SELECT * FROM tb_professores WHERE id = " + id);
+        String query = "SELECT * FROM tb_professores WHERE id = " + id;
 
+        try (Statement stmt = this.getConexao().createStatement();
+            ResultSet res = stmt.executeQuery(query)
+        ) {
             if (res.next()){
             objeto.setNome(res.getString("nome"));
             objeto.setIdade(res.getInt("idade"));
@@ -209,15 +207,7 @@ public int maiorID() throws SQLException {
         } catch (SQLException erro) {
             erro.printStackTrace();
             throw new RuntimeException("Erro ao carregar o professor: " + erro.getMessage());
-        } finally {
-            try {
-                if (res != null) res.close();
-                if (stmt != null) stmt.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
-
         return objeto;
 
     }
