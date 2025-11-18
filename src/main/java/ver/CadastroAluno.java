@@ -1,11 +1,13 @@
-package View;
+package ver;
 
-import Model.Aluno;
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+
+import model.Aluno;
 
 // Classe CadastroAluno herda as características de javax.swing.JFrame
 public class CadastroAluno extends javax.swing.JFrame {
@@ -158,10 +160,10 @@ public class CadastroAluno extends javax.swing.JFrame {
     // Action: confirmar as informações preenchidas
     private void bConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bConfirmarActionPerformed
         try {
-            String nomeAluno = "";
-            int idadeAluno = 0;
-            String cursoAluno = "";
-            int faseAluno = 0;
+            String nome = "";
+            int idade = 0;
+            String curso = "";
+            int fase = 0;
             String[] arrayCursos = {"-", 
                 "Administração", 
                 "Análise e Desenvolvimento de Sistemas", 
@@ -174,61 +176,44 @@ public class CadastroAluno extends javax.swing.JFrame {
                 "Sistemas de Informação"};
             int[] arrayFases = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
             
-            // Validando nome
-            if (this.nome.getText().trim().length() < 2){
+            // Setando nome
+            if (this.nome.getText().length() < 2){
                 throw new Mensagens("Nome deve conter ao menos 2 caracteres.");
             } else {
-                nomeAluno = this.nome.getText().trim();
+                nome = this.nome.getText();
             }
             
-            // Validando data de nascimento
-            if (this.idade.getDate() == null) {
-                throw new Mensagens("Informe a data de nascimento.");
-            }
-            
-            // Validando idade
+            // Setando idade
             if (calculaIdade(this.idade.getDate()) < 11){
-                throw new Mensagens("Idade inválida. O aluno deve ter pelo menos 11 anos.");
+                throw new Mensagens("Idade inválida");
             } else {
-                idadeAluno = calculaIdade(this.idade.getDate());
+                idade = calculaIdade(this.idade.getDate());
             }
             
-            // Validando curso
+            // Setando curso
             if (this.curso.getSelectedIndex() == 0){
-                throw new Mensagens("Escolha o curso.");
+                throw new Mensagens("Escolha o curso");
             } else {
-                cursoAluno = arrayCursos[this.curso.getSelectedIndex()];
+                curso = arrayCursos[this.curso.getSelectedIndex()];
             }
             
             // Setando fase
-            faseAluno = arrayFases[this.fase.getSelectedIndex()];
+            fase = arrayFases[this.fase.getSelectedIndex()];
             
-            // Configurando o objeto aluno com os dados validados
-            this.objetoAluno.setNome(nomeAluno);
-            this.objetoAluno.setIdade(idadeAluno);
-            this.objetoAluno.setCurso(cursoAluno);
-            this.objetoAluno.setFase(faseAluno);
-            
-            // Gerando o próximo ID
-            int proximoId = this.objetoAluno.maiorID() + 1;
-            this.objetoAluno.setId(proximoId);
-            
-            // Inserindo no banco de dados
-            if (this.objetoAluno.insertAlunoBD()){
+            // Adicionando dados validados no database
+            if (this.objetoAluno.insertAlunoBD(curso, fase, nome, idade)){
                 JOptionPane.showMessageDialog(rootPane, "Aluno cadastrado com sucesso!");
+                
                 this.dispose();
-            } else {
-                throw new Mensagens("Erro ao cadastrar aluno no banco de dados.");
             }
         
         // Capturando exceções
         } catch (Mensagens erro) {
             JOptionPane.showMessageDialog(null, erro.getMessage());
         } catch (NumberFormatException erro2) {
-            JOptionPane.showMessageDialog(null, "Informe um número válido.");
-        } catch (Exception ex) {
-            Logger.getLogger(CadastroAluno.class.getName()).log(Level.SEVERE, "Erro ao cadastrar aluno", ex);
-            JOptionPane.showMessageDialog(null, "Erro ao cadastrar aluno: " + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Informe um número.");
+        } catch (SQLException ex) {
+            Logger.getLogger(CadastroAluno.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bConfirmarActionPerformed
     

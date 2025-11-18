@@ -1,6 +1,5 @@
-package View;
+package ver;
 
-import Model.Aluno;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -17,6 +16,9 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+
+import model.Aluno;
+
 
 // Classe GerenciaAlunos herda as características de javax.swing.JFrame
 public class GerenciaAlunos extends javax.swing.JFrame {
@@ -120,7 +122,7 @@ public class GerenciaAlunos extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Cadastro de Alunos");
 
-        refresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/refresh.png"))); // NOI18N
+        refresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ver/refresh.png"))); // NOI18N
         refresh.setText("  Atualizar tabela");
         refresh.setToolTipText("CTRL+R");
         refresh.addActionListener(new java.awt.event.ActionListener() {

@@ -1,10 +1,11 @@
 package DAO;
 
-import Model.Aluno;
-
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import model.Aluno;
+
 import java.sql.*;
 
 public class AlunoDAO {

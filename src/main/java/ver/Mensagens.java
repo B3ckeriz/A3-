@@ -1,4 +1,4 @@
-package View;
+package ver;
 
 // Classe Mensagens herda as características de Exception
 public class Mensagens extends Exception {

@@ -1,4 +1,5 @@
-package View;
+package ver;
+
 
 import DAO.AlunoDAO;
 import java.util.logging.Level;
@@ -33,14 +34,14 @@ public class TelaLogin extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Login - SisUni");
+        setTitle("Login");
         setAlwaysOnTop(true);
         setBackground(new java.awt.Color(51, 255, 51));
         setResizable(false);
 
         login.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         login.setText("LOGIN");
-        login.setToolTipText("Pressione ENTER para fazer login");
+        login.setToolTipText("ENTER");
         login.setAlignmentX(0.5F);
         login.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -57,14 +58,14 @@ public class TelaLogin extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("DIGITE A SENHA");
+        jLabel2.setText("DIGITE A SENHA (MySQL)");
 
         user.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         user.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("DIGITE O USUÁRIO");
+        jLabel3.setText("DIGITE O USUÁRIO (MySQL)");
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -108,7 +109,7 @@ public class TelaLogin extends javax.swing.JFrame {
                 .addGap(29, 29, 29))
         );
 
-        login.getAccessibleContext().setAccessibleDescription("Botão de Login");
+        login.getAccessibleContext().setAccessibleDescription("Cadastro de Professores");
 
         pack();
         setLocationRelativeTo(null);

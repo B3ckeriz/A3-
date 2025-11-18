@@ -1,4 +1,4 @@
-package View;
+package ver;
 
 // Classe Sobre herda as características de javax.swing.JFrame
 public class Sobre extends javax.swing.JFrame {

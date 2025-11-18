@@ -1,6 +1,5 @@
-package View;
+package ver;
 
-import Model.Professor;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -17,6 +16,9 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+
+import model.Professor;
+
 
 // Classe GerenciaAlunos herda as características de javax.swing.JFrame
 public class GerenciaProfessores extends javax.swing.JFrame {
@@ -117,7 +119,7 @@ public class GerenciaProfessores extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Cadastro de Professores");
 
-        refresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/refresh.png"))); // NOI18N
+        refresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ver/refresh.png"))); // NOI18N
         refresh.setText("  Atualizar tabela");
         refresh.setToolTipText("CTRL+R");
         refresh.addActionListener(new java.awt.event.ActionListener() {
@@ -232,62 +234,121 @@ public class GerenciaProfessores extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     
     // Método responsável por exportar para Excel
-    private void exportXls() throws IOException{
-        JFileChooser chooser = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Arquivos Excel", "xls");
+    private void exportXls() throws IOException {
+    JFileChooser chooser = new JFileChooser();
+    FileNameExtensionFilter filter = new FileNameExtensionFilter("Arquivos Excel", "xls");
+    
+    chooser.setFileFilter(filter);
+    chooser.setDialogTitle("Salvar arquivo");
+    chooser.setAcceptAllFileFilterUsed(false);
+    
+    if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+        String path = chooser.getSelectedFile().toString();
         
-        chooser.setFileFilter(filter);
-        chooser.setDialogTitle("Salvar arquivo");
-        chooser.setAcceptAllFileFilterUsed(false);
+        // Adiciona extensão .xls se não tiver
+        if (!path.toLowerCase().endsWith(".xls")) {
+            path += ".xls";
+        }
         
-        if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION){
-            String path = chooser.getSelectedFile().toString().concat(".xls");
+        Workbook book = null;
+        FileOutputStream file = null;
+        
+        try {
+            File fileXLS = new File(path);
+            
+            // Remove arquivo existente se necessário
+            if (fileXLS.exists()) {
+                fileXLS.delete();
+            }
+            
+            // Cria o workbook e a planilha
+            book = new HSSFWorkbook();
+            Sheet sheet = book.createSheet("Professores");
+            sheet.setDisplayGridlines(true);
+            
+            int rowCount = this.jTableProfessores.getRowCount();
+            int colCount = this.jTableProfessores.getColumnCount();
+            
+            // Cria linha de cabeçalho (índice 0)
+            Row headerRow = sheet.createRow(0);
+            for (int col = 0; col < colCount; col++) {
+                Cell cell = headerRow.createCell(col);
+                cell.setCellValue(this.jTableProfessores.getColumnName(col));
+            }
+            
+            // Preenche os dados (começando da linha 1)
+            for (int linha = 0; linha < rowCount; linha++) {
+                Row dataRow = sheet.createRow(linha + 1);
+                
+                for (int coluna = 0; coluna < colCount; coluna++) {
+                    Cell cell = dataRow.createCell(coluna);
+                    Object valor = this.jTableProfessores.getValueAt(linha, coluna);
+                    
+                    // Trata valores nulos
+                    if (valor == null) {
+                        cell.setCellValue("");
+                        continue;
+                    }
+                    
+                    // Converte valores de acordo com o tipo
+                    if (valor instanceof Number) {
+                        cell.setCellValue(((Number) valor).doubleValue());
+                    } else {
+                        cell.setCellValue(String.valueOf(valor));
+                    }
+                }
+            }
+            
+            // Auto-ajusta largura das colunas
+            for (int col = 0; col < colCount; col++) {
+                sheet.autoSizeColumn(col);
+            }
+            
+            // Salva o arquivo
+            file = new FileOutputStream(fileXLS);
+            book.write(file);
+            
+            JOptionPane.showMessageDialog(
+                this, 
+                "Arquivo exportado com sucesso!\n" + path, 
+                "Exportação Concluída", 
+                JOptionPane.INFORMATION_MESSAGE
+            );
+            
+        } catch (IOException e) {
+            Logger.getLogger(GerenciaProfessores.class.getName()).log(Level.SEVERE, "Erro ao exportar Excel", e);
+            JOptionPane.showMessageDialog(
+                this, 
+                "Erro ao exportar arquivo:\n" + e.getMessage(), 
+                "Erro", 
+                JOptionPane.ERROR_MESSAGE
+            );
+            throw e;
+            
+        } catch (Exception e) {
+            Logger.getLogger(GerenciaProfessores.class.getName()).log(Level.SEVERE, "Erro inesperado ao exportar Excel", e);
+            JOptionPane.showMessageDialog(
+                this, 
+                "Erro inesperado ao exportar arquivo:\n" + e.getMessage(), 
+                "Erro", 
+                JOptionPane.ERROR_MESSAGE
+            );
+            
+        } finally {
+            // Fecha recursos
             try {
-                File fileXLS = new File(path);
-                if (fileXLS.exists()){
-                    fileXLS.delete();
+                if (file != null) {
+                    file.close();
                 }
-                fileXLS.createNewFile();
-                Workbook book = new HSSFWorkbook();
-                FileOutputStream file = new FileOutputStream(fileXLS);
-                Sheet sheet = book.createSheet("Minha folha de trabalho 1");
-                sheet.setDisplayGridlines(true);
-                
-                for (int i = 0; i < this.jTableProfessores.getRowCount(); i++){
-                    Row row = sheet.createRow(i);
-                    for (int j = 0; j < this.jTableProfessores.getColumnCount(); j++){
-                        Cell cell = row.createCell(j);
-                        if (i == 0){
-                            cell.setCellValue(this.jTableProfessores.getColumnName(j));
-                        }
-                    }
+                if (book != null) {
+                    book.close();
                 }
-                
-                int firstRow = 1;
-                
-                for (int linha = 0; linha < this.jTableProfessores.getRowCount(); linha++){
-                    Row row2 = sheet.createRow(firstRow);
-                    firstRow++;
-                    for (int coluna = 0; coluna < this.jTableProfessores.getColumnCount(); coluna++){
-                        Cell cell2 = row2.createCell(coluna);
-                        if (this.jTableProfessores.getValueAt(linha, coluna) instanceof Double){
-                            cell2.setCellValue(Double.parseDouble((String) this.jTableProfessores.getValueAt(linha, coluna).toString()));
-                        } else if (this.jTableProfessores.getValueAt(linha, coluna) instanceof Float){
-                            cell2.setCellValue(Float.parseFloat((String) this.jTableProfessores.getValueAt(linha, coluna)));
-                        } else if (this.jTableProfessores.getValueAt(linha, coluna) instanceof Integer){
-                            cell2.setCellValue(Integer.parseInt((String) this.jTableProfessores.getValueAt(linha, coluna).toString()));
-                        } else {
-                            cell2.setCellValue(String.valueOf(this.jTableProfessores.getValueAt(linha, coluna)));
-                        }
-                    }
-                }
-                book.write(file);
-                file.close();
-            } catch (IOException | NumberFormatException e){
-                throw e;
+            } catch (IOException e) {
+                Logger.getLogger(GerenciaProfessores.class.getName()).log(Level.WARNING, "Erro ao fechar recursos", e);
             }
         }
     }
+}
     
     // Menu option: abrir tela de gerência dos alunos
     private void menuGerenciaAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuGerenciaAlunoActionPerformed

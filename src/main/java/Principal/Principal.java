@@ -3,7 +3,8 @@ package Principal;
 import javax.swing.JOptionPane;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
-import View.TelaLogin;
+
+import ver.TelaLogin;
 
 // MAIN CLASS
 public class Principal {

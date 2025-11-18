@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 import DAO.ProfessorDAO;
 import java.sql.SQLException;

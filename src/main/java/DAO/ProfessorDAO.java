@@ -1,7 +1,9 @@
 package DAO;
 
-import Model.Professor;
 import java.util.*;
+
+import model.Professor;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;

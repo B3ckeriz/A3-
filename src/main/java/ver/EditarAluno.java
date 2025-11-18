@@ -1,10 +1,11 @@
-package View;
+package ver;
 
-import Model.Aluno;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+
+import model.Aluno;
 
 /**
  * Tela de Edição de Alunos
@@ -108,7 +109,7 @@ public class EditarAluno extends javax.swing.JFrame {
         });
 
         bConfirmar.setText("Confirmar");
-        bConfirmar.setToolTipText("Pressione ENTER para confirmar");
+        bConfirmar.setToolTipText("ENTER");
         bConfirmar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bConfirmarActionPerformed(evt);
@@ -180,7 +181,7 @@ public class EditarAluno extends javax.swing.JFrame {
      */
     private void carregarDadosAluno() {
         try {
-            Optional<Aluno> alunoOpt = objetoAluno.carregaAluno(alunoId);
+            Optional<Aluno> alunoOpt = Optional.ofNullable(objetoAluno.carregaAluno(alunoId));
             
             if (alunoOpt.isPresent()) {
                 Aluno aluno = alunoOpt.get();
@@ -333,7 +334,7 @@ public class EditarAluno extends javax.swing.JFrame {
             objetoAluno.setFase(faseAluno);
             
             // Atualizar no banco de dados
-            if (objetoAluno.updateAlunoBD()) {
+            if (objetoAluno.updateAlunoBD(cursoAluno, faseAluno, faseAluno, cursoAluno, faseAluno)) {
                 logger.info("Aluno atualizado: ID=" + alunoId + ", Nome=" + nomeAluno);
                 JOptionPane.showMessageDialog(
                     this,
