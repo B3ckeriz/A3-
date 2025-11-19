@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 // Classe CadastroAluno herda as características de javax.swing.JFrame
 public class CadastroAluno extends javax.swing.JFrame {
     
-    private Aluno objetoAluno; // Apontador para a classe Aluno
+    private transient Aluno objetoAluno; // Apontador para a classe Aluno
     
     // Construtor
     public CadastroAluno() {
