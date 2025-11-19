@@ -253,147 +253,134 @@ public class CadastroProfessor extends javax.swing.JFrame {
     }
     
     // Action: confirmar as informações preenchidas
-    private void bConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bConfirmarActionPerformed
-        try {
-            String nome = "";
-            String campus = "";
-            String cpf = "";
-            String contato = "";
-            int idade = 0;
-            int salario = 0;
-            String titulo = "";
-            String[] arrayCampus = {"-", 
-                "Continente",
-                "Dib Mussi",
-                "Ilha",
-                "Pedra Branca",
-                "Trajano",
-                "Tubarão"};
-            String[] arrayTitulo = {"-",
-                "Graduação",
-                "Especialização",
-                "Mestrado",
-                "Doutorado"};
-            
-            // Setando nome
-            if (this.nome.getText().length() < 2){
-                throw new Mensagens("Nome deve conter ao menos 2 caracteres.");
-            } else {
-                nome = this.nome.getText();
-            }
-            
-            // Setando campus
-            if (this.campus.getSelectedIndex() == 0){
-                throw new Mensagens("Escolha o campus");
-            } else {
-                campus = arrayCampus[this.campus.getSelectedIndex()];
-            }
-            
-            // Setando cpf
-            if (validarFormatado(this.cpfFormatado.getText()).length() != 11){
-                throw new Mensagens("O campo CPF deve possuir 11 caracteres numéricos");
-            } else if (this.verificaCpf(this.cpfFormatado.getText())) {
-                throw new Mensagens("CPF já cadastrado no sistema");
-            } else {
-                cpf = this.cpfFormatado.getText();
-            }
-            
-            // Setando contato
-            if (validarFormatado(this.contatoFormatado.getText()).length() != 11){
-                throw new Mensagens("O campo contato deve possuir 11 caracteres numéricos");
-            } else {
-                contato = this.contatoFormatado.getText();
-            }
-            
-            // Setando idade
-            if (calculaIdade(this.idade.getDate()) < 11){
-                throw new Mensagens("Idade inválida");
-            } else {
-                idade = calculaIdade(this.idade.getDate());
-            }
-            
-            // Setando salário
-            if (validarFormatado(this.salarioFormatado.getText()).length() < 4){
-                throw new Mensagens("O campo salário deve possuir no mínimo 4 caracteres numéricos");
-            } else {
-                salario = Integer.parseInt(validarFormatado(this.salarioFormatado.getText()));
-            }
-            
-            // Setando titulo
-            if (this.titulo.getSelectedIndex() == 0){
-                throw new Mensagens("Defina um título");
-            } else {
-                titulo = arrayTitulo[this.titulo.getSelectedIndex()];
-            }
-            
-            // Adicionando dados validados no database
-            if (this.objetoProfessor.InsertProfessorBD(campus, cpf, contato, titulo, salario, nome, idade)){
-                JOptionPane.showMessageDialog(rootPane, "Professor cadastrado com sucesso!"); 
-                this.dispose();
-            }
-            
-        // Capturando exceções    
-        } catch (Mensagens erro) {
-            JOptionPane.showMessageDialog(null, erro.getMessage());
-        } catch (NumberFormatException erro2) {
-            JOptionPane.showMessageDialog(null, "Informe um número.");
-        } catch (SQLException ex) {
-            Logger.getLogger(CadastroProfessor.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NullPointerException erro3){
-            JOptionPane.showMessageDialog(null, "Data de nascimento não pode ser vazia");
+private void bConfirmarActionPerformed(java.awt.event.ActionEvent evt) {
+    try {
+        // Arrays de referência
+        String[] arrayCampus = {"-", "Continente", "Dib Mussi", "Ilha", "Pedra Branca", "Trajano", "Tubarão"};
+        String[] arrayTitulo = {"-", "Graduação", "Especialização", "Mestrado", "Doutorado"};
+        
+        // Validação e captura dos dados
+        String nome = validarNome();
+        String campus = validarCampus(arrayCampus);
+        String cpf = validarCPF();
+        String contato = validarContato();
+        int idade = validarIdade();
+        int salario = validarSalario();
+        String titulo = validarTitulo(arrayTitulo);
+        
+        // Inserção no banco de dados
+        boolean sucesso = this.objetoProfessor.InsertProfessorBD(
+            campus, cpf, contato, titulo, salario, nome, idade
+        );
+        
+        if (sucesso) {
+            JOptionPane.showMessageDialog(rootPane, "Professor cadastrado com sucesso!"); 
+            this.dispose();
         }
         
-        
-    }//GEN-LAST:event_bConfirmarActionPerformed
-    
-    // Action: cancelar a ação de cadastrar aluno
-    private void bCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCancelarActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_bCancelarActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    
-    // Rodando a tela de cadastro
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CadastroProfessor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CadastroProfessor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CadastroProfessor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CadastroProfessor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    new CadastroProfessor().setVisible(true);
-                } catch (java.text.ParseException ex) {
-                    Logger.getLogger(CadastroProfessor.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });
+    } catch (Mensagens erro) {
+        JOptionPane.showMessageDialog(null, erro.getMessage());
+    } catch (NumberFormatException erro2) {
+        JOptionPane.showMessageDialog(null, "Informe um número.");
+    } catch (SQLException ex) {
+        Logger.getLogger(CadastroProfessor.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (NullPointerException erro3) {
+        JOptionPane.showMessageDialog(null, "Data de nascimento não pode ser vazia");
     }
+}
+
+// Métodos de validação extraídos
+
+private String validarNome() throws Mensagens {
+    String nomeTexto = this.nome.getText();
+    if (nomeTexto.length() < 2) {
+        throw new Mensagens("Nome deve conter ao menos 2 caracteres.");
+    }
+    return nomeTexto;
+}
+
+private String validarCampus(String[] arrayCampus) throws Mensagens {
+    int indice = this.campus.getSelectedIndex();
+    if (indice == 0) {
+        throw new Mensagens("Escolha o campus");
+    }
+    return arrayCampus[indice];
+}
+
+private String validarCPF() throws Mensagens {
+    String cpfTexto = this.cpfFormatado.getText();
+    String cpfLimpo = validarFormatado(cpfTexto);
+    
+    if (cpfLimpo.length() != 11) {
+        throw new Mensagens("O campo CPF deve possuir 11 caracteres numéricos");
+    }
+    
+    if (this.verificaCpf(cpfTexto)) {
+        throw new Mensagens("CPF já cadastrado no sistema");
+    }
+    
+    return cpfTexto;
+}
+
+private String validarContato() throws Mensagens {
+    String contatoTexto = this.contatoFormatado.getText();
+    String contatoLimpo = validarFormatado(contatoTexto);
+    
+    if (contatoLimpo.length() != 11) {
+        throw new Mensagens("O campo contato deve possuir 11 caracteres numéricos");
+    }
+    
+    return contatoTexto;
+}
+
+private int validarIdade() throws Mensagens {
+    int idadeCalculada = calculaIdade(this.idade.getDate());
+    if (idadeCalculada < 11) {
+        throw new Mensagens("Idade inválida");
+    }
+    return idadeCalculada;
+}
+
+private int validarSalario() throws Mensagens {
+    String salarioTexto = validarFormatado(this.salarioFormatado.getText());
+    if (salarioTexto.length() < 4) {
+        throw new Mensagens("O campo salário deve possuir no mínimo 4 caracteres numéricos");
+    }
+    return Integer.parseInt(salarioTexto);
+}
+
+private String validarTitulo(String[] arrayTitulo) throws Mensagens {
+    int indice = this.titulo.getSelectedIndex();
+    if (indice == 0) {
+        throw new Mensagens("Defina um título");
+    }
+    return arrayTitulo[indice];
+}
+
+private void bCancelarActionPerformed(java.awt.event.ActionEvent evt) {
+    this.dispose();
+}
+
+public static void main(String args[]) {
+    try {
+        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            if ("Nimbus".equals(info.getName())) {
+                javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                break;
+            }
+        }
+    } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+        java.util.logging.Logger.getLogger(CadastroProfessor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    }
+
+    java.awt.EventQueue.invokeLater(() -> {
+        try {
+            new CadastroProfessor().setVisible(true);
+        } catch (java.text.ParseException ex) {
+            Logger.getLogger(CadastroProfessor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    });
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCancelar;
