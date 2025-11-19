@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.text.MaskFormatter;
 import model.Professor;
-import java.util.ArrayList;
+import java.util.List;
 
 // Classe CadastroProfessor herda as características de javax.swing.JFrame
 public class CadastroProfessor extends javax.swing.JFrame {
@@ -203,16 +203,16 @@ public class CadastroProfessor extends javax.swing.JFrame {
     
     // Método que varre o banco de dados e retorna se o CPF já consta no mesmo
     private boolean verificaCpf(String cpf){
-        ArrayList<Professor> minhalista = new ArrayList<>();
-        minhalista = objetoProfessor.getMinhaLista();
+        List<Professor> minhalista = objetoProfessor.getMinhaLista();
 
         for (Professor a : minhalista) {
-            if ((cpf.equals(a.getCpf()))){
+            if (cpf.equals(a.getCpf())) {
                 return true;
             }
         }
         return false;
     }
+
     
     // Método que calcula a idade do professor cadastrado com base na data de nascimento recebida
     private int calculaIdade(java.util.Date dataNasc){

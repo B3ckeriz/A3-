@@ -103,10 +103,10 @@ public class Professor extends Pessoa {
     */
     
     // Retorna a lista de alunos do banco de dados
-    public ArrayList getMinhaLista() {
+    public List<Professor> getMinhaLista() {
         return dao.getMinhaLista();
     }
-    
+
     // Cadastra novo professor
     public boolean InsertProfessorBD(String campus, String cpf, String contato, String titulo, int salario, String nome, int idade) throws SQLException {
         int id = this.maiorID() + 1;
