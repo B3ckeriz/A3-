@@ -232,55 +232,55 @@ public class GerenciaProfessores extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     
     // Método responsável por exportar para Excel
-    private void exportXls() throws IOException{
+       private void exportXls() throws IOException {
+
         JFileChooser chooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Arquivos Excel", "xls");
-        
+
         chooser.setFileFilter(filter);
         chooser.setDialogTitle("Salvar arquivo");
         chooser.setAcceptAllFileFilterUsed(false);
-        
-        if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION){
+
+        if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+
             String path = chooser.getSelectedFile().toString().concat(".xls");
+
             try {
                 File fileXLS = new File(path);
-                if (fileXLS.exists()){
-                    boolean isDeleted = fileXLS.delete();
-                    if (!isDeleted) {
-                        System.out.println("Erro: Não foi possível deletar o arquivo: " + fileXLS.getAbsolutePath());
-                        throw new IOException("Não foi possível deletar o arquivo: " + fileXLS.getAbsolutePath());
+
+                if (fileXLS.exists()) {
+                    boolean deleted = fileXLS.delete();
+                    if (!deleted) {
+                        throw new IOException("Não foi possível substituir o arquivo existente.");
                     }
                 }
 
                 if (!fileXLS.createNewFile()) {
-                    // Caso o arquivo já exista ou não possa ser criado
-                    System.out.println("O arquivo já existe ou não foi possível criá-lo: " + fileXLS.getAbsolutePath());
-                    throw new IOException("Não foi possível criar o novo arquivo: " + fileXLS.getAbsolutePath());
+                    throw new IOException("Não foi possível criar o arquivo.");
                 }
 
-                try(Workbook book = new HSSFWorkbook();
-                    FileOutputStream fileOut = new FileOutputStream(fileXLS)){
+                try (Workbook book = new HSSFWorkbook();
+                     FileOutputStream fileOut = new FileOutputStream(fileXLS)) {
 
                     Sheet sheet = book.createSheet("Minha folha de trabalho 1");
                     sheet.setDisplayGridlines(true);
 
-                     
-                for (int i = 0; i < this.jTableProfessores.getRowCount(); i++){
-                    Row row = sheet.createRow(i);
-                    for (int j = 0; j < this.jTableProfessores.getColumnCount(); j++) {
-                        Cell cell = row.createCell(j);
-                        if (i == 0){
-                            cell.setCellValue(this.jTableProfessores.getColumnName(j));
+                    for (int i = 0; i < this.jTableProfessores.getRowCount(); i++) {
+                        Row row = sheet.createRow(i);
+                        for (int j = 0; j < this.jTableProfessores.getColumnCount(); j++) {
+                            Cell cell = row.createCell(j);
+                            if (i == 0) {
+                                cell.setCellValue(this.jTableProfessores.getColumnName(j));
+                            }
                         }
                     }
-                }
-                
-                int firstRow = 1;
+
+                    int firstRow = 1;
 
                     for (int linha = 0; linha < this.jTableProfessores.getRowCount(); linha++) {
-                        Row row2 = sheet.createRow(firstRow);
-                        firstRow++;
+                        Row row2 = sheet.createRow(firstRow++);
                         for (int coluna = 0; coluna < this.jTableProfessores.getColumnCount(); coluna++) {
+
                             Cell cell2 = row2.createCell(coluna);
                             Object value = this.jTableProfessores.getValueAt(linha, coluna);
 
@@ -296,15 +296,14 @@ public class GerenciaProfessores extends javax.swing.JFrame {
                         }
                     }
 
-                    // Escrever o conteúdo no arquivo e salvar
                     book.write(fileOut);
                 }
-           } catch (IOException | NumberFormatException e) {
-            // Remover o printStackTrace() (DEBUG)
-             throw new RuntimeException("Erro ao exportar para Excel: " + e.getMessage(), e);
+
+            } catch (IOException | NumberFormatException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Erro ao exportar para Excel: " + e.getMessage());
             }
         }
-
     }
     
     // Menu option: abrir tela de gerência dos alunos
