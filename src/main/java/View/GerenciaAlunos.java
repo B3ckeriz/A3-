@@ -247,14 +247,17 @@ public class GerenciaAlunos extends javax.swing.JFrame {
                     fileXLS.delete();
                 }
                 fileXLS.createNewFile();
-                Workbook book = new HSSFWorkbook();
-                FileOutputStream file = new FileOutputStream(fileXLS);
-                Sheet sheet = book.createSheet("Minha folha de trabalho 1");
-                sheet.setDisplayGridlines(true);
+
+                try(Workbook book = new HSSFWorkbook();
+                    FileOutputStream fileOut = new FileOutputStream(fileXLS)){
+
+                    Sheet sheet = book.createSheet("Minha folha de trabalho 1");
+                    sheet.setDisplayGridlines(true);
+
                      
                 for (int i = 0; i < this.jTableAlunos.getRowCount(); i++){
                     Row row = sheet.createRow(i);
-                    for (int j = 0; j < this.jTableAlunos.getColumnCount(); j++){
+                    for (int j = 0; j < this.jTableAlunos.getColumnCount(); j++) {
                         Cell cell = row.createCell(j);
                         if (i == 0){
                             cell.setCellValue(this.jTableAlunos.getColumnName(j));
@@ -263,29 +266,35 @@ public class GerenciaAlunos extends javax.swing.JFrame {
                 }
                 
                 int firstRow = 1;
-                
-                for (int linha = 0; linha < this.jTableAlunos.getRowCount(); linha++){
-                    Row row2 = sheet.createRow(firstRow);
-                    firstRow++;
-                    for (int coluna = 0; coluna < this.jTableAlunos.getColumnCount(); coluna++){
-                        Cell cell2 = row2.createCell(coluna);
-                        if (this.jTableAlunos.getValueAt(linha, coluna) instanceof Double){
-                            cell2.setCellValue(Double.parseDouble((String) this.jTableAlunos.getValueAt(linha, coluna).toString()));
-                        } else if (this.jTableAlunos.getValueAt(linha, coluna) instanceof Float){
-                            cell2.setCellValue(Float.parseFloat((String) this.jTableAlunos.getValueAt(linha, coluna)));
-                        } else if (this.jTableAlunos.getValueAt(linha, coluna) instanceof Integer){
-                            cell2.setCellValue(Integer.parseInt((String) this.jTableAlunos.getValueAt(linha, coluna).toString()));
-                        } else {
-                            cell2.setCellValue(String.valueOf(this.jTableAlunos.getValueAt(linha, coluna)));
+
+                    for (int linha = 0; linha < this.jTableAlunos.getRowCount(); linha++) {
+                        Row row2 = sheet.createRow(firstRow);
+                        firstRow++;
+                        for (int coluna = 0; coluna < this.jTableAlunos.getColumnCount(); coluna++) {
+                            Cell cell2 = row2.createCell(coluna);
+                            Object value = this.jTableAlunos.getValueAt(linha, coluna);
+
+                            if (value instanceof Double) {
+                                cell2.setCellValue((Double) value);
+                            } else if (value instanceof Float) {
+                                cell2.setCellValue((Float) value);
+                            } else if (value instanceof Integer) {
+                                cell2.setCellValue((Integer) value);
+                            } else {
+                                cell2.setCellValue(value != null ? value.toString() : "");
+                            }
                         }
                     }
+
+                    // Escrever o conteúdo no arquivo e salvar
+                    book.write(fileOut);
                 }
-                book.write(file);
-                file.close();
-            } catch (IOException | NumberFormatException e){
-                throw e;
+            } catch (IOException | NumberFormatException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Erro ao exportar para Excel: " + e.getMessage());
             }
         }
+
     }
     
     // Menu option: abrir tela de gerência dos professores

@@ -1,9 +1,10 @@
 package view;
 
-import dao.AlunoDAO;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+
+import DAO.AlunoDAO;
 
 // Classe TelaLogin herda as características de javax.swing.JFrame
 public class TelaLogin extends javax.swing.JFrame {

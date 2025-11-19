@@ -1,7 +1,9 @@
 package model;
 
 import java.util.*;
-import dao.AlunoDAO;
+
+import DAO.AlunoDAO;
+
 import java.sql.SQLException;
 
 // Classe Aluno herda as características de Pessoa

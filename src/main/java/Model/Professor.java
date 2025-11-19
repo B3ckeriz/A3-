@@ -1,8 +1,9 @@
 package model;
 
-import dao.ProfessorDAO;
 import java.sql.SQLException;
 import java.util.*;
+
+import DAO.ProfessorDAO;
 
 // Classe Professor herda as características de Pessoa
 public class Professor extends Pessoa {
