@@ -299,9 +299,9 @@ public class GerenciaProfessores extends javax.swing.JFrame {
                     // Escrever o conteúdo no arquivo e salvar
                     book.write(fileOut);
                 }
-            } catch (IOException | NumberFormatException e) {
-                e.printStackTrace();
-                throw new RuntimeException("Erro ao exportar para Excel: " + e.getMessage());
+           } catch (IOException | NumberFormatException e) {
+            // Remover o printStackTrace() (DEBUG)
+             throw new RuntimeException("Erro ao exportar para Excel: " + e.getMessage(), e);
             }
         }
 
