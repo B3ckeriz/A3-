@@ -251,8 +251,6 @@ public class GerenciaAlunos extends javax.swing.JFrame {
                     }
                 }
 
-                fileXLS.createNewFile();
-
                 if (!fileXLS.createNewFile()) {
                     // Caso o arquivo já exista ou não possa ser criado
                     System.out.println("O arquivo já existe ou não foi possível criá-lo: " + fileXLS.getAbsolutePath());
