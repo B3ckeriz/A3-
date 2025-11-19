@@ -245,17 +245,29 @@ public class GerenciaProfessores extends javax.swing.JFrame {
             try {
                 File fileXLS = new File(path);
                 if (fileXLS.exists()){
-                    fileXLS.delete();
+                    boolean isDeleted = fileXLS.delete();
+                    if (!isDeleted) {
+                        System.out.println("Erro: Não foi possível deletar o arquivo: " + fileXLS.getAbsolutePath());
+                        throw new IOException("Não foi possível deletar o arquivo: " + fileXLS.getAbsolutePath());
+                    }
                 }
-                fileXLS.createNewFile();
-                Workbook book = new HSSFWorkbook();
-                FileOutputStream file = new FileOutputStream(fileXLS);
-                Sheet sheet = book.createSheet("Minha folha de trabalho 1");
-                sheet.setDisplayGridlines(true);
-                
+
+                if (!fileXLS.createNewFile()) {
+                    // Caso o arquivo já exista ou não possa ser criado
+                    System.out.println("O arquivo já existe ou não foi possível criá-lo: " + fileXLS.getAbsolutePath());
+                    throw new IOException("Não foi possível criar o novo arquivo: " + fileXLS.getAbsolutePath());
+                }
+
+                try(Workbook book = new HSSFWorkbook();
+                    FileOutputStream fileOut = new FileOutputStream(fileXLS)){
+
+                    Sheet sheet = book.createSheet("Minha folha de trabalho 1");
+                    sheet.setDisplayGridlines(true);
+
+                     
                 for (int i = 0; i < this.jTableProfessores.getRowCount(); i++){
                     Row row = sheet.createRow(i);
-                    for (int j = 0; j < this.jTableProfessores.getColumnCount(); j++){
+                    for (int j = 0; j < this.jTableProfessores.getColumnCount(); j++) {
                         Cell cell = row.createCell(j);
                         if (i == 0){
                             cell.setCellValue(this.jTableProfessores.getColumnName(j));
@@ -264,29 +276,35 @@ public class GerenciaProfessores extends javax.swing.JFrame {
                 }
                 
                 int firstRow = 1;
-                
-                for (int linha = 0; linha < this.jTableProfessores.getRowCount(); linha++){
-                    Row row2 = sheet.createRow(firstRow);
-                    firstRow++;
-                    for (int coluna = 0; coluna < this.jTableProfessores.getColumnCount(); coluna++){
-                        Cell cell2 = row2.createCell(coluna);
-                        if (this.jTableProfessores.getValueAt(linha, coluna) instanceof Double){
-                            cell2.setCellValue(Double.parseDouble((String) this.jTableProfessores.getValueAt(linha, coluna).toString()));
-                        } else if (this.jTableProfessores.getValueAt(linha, coluna) instanceof Float){
-                            cell2.setCellValue(Float.parseFloat((String) this.jTableProfessores.getValueAt(linha, coluna)));
-                        } else if (this.jTableProfessores.getValueAt(linha, coluna) instanceof Integer){
-                            cell2.setCellValue(Integer.parseInt((String) this.jTableProfessores.getValueAt(linha, coluna).toString()));
-                        } else {
-                            cell2.setCellValue(String.valueOf(this.jTableProfessores.getValueAt(linha, coluna)));
+
+                    for (int linha = 0; linha < this.jTableProfessores.getRowCount(); linha++) {
+                        Row row2 = sheet.createRow(firstRow);
+                        firstRow++;
+                        for (int coluna = 0; coluna < this.jTableProfessores.getColumnCount(); coluna++) {
+                            Cell cell2 = row2.createCell(coluna);
+                            Object value = this.jTableProfessores.getValueAt(linha, coluna);
+
+                            if (value instanceof Double) {
+                                cell2.setCellValue((Double) value);
+                            } else if (value instanceof Float) {
+                                cell2.setCellValue((Float) value);
+                            } else if (value instanceof Integer) {
+                                cell2.setCellValue((Integer) value);
+                            } else {
+                                cell2.setCellValue(value != null ? value.toString() : "");
+                            }
                         }
                     }
+
+                    // Escrever o conteúdo no arquivo e salvar
+                    book.write(fileOut);
                 }
-                book.write(file);
-                file.close();
-            } catch (IOException | NumberFormatException e){
-                throw e;
+            } catch (IOException | NumberFormatException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Erro ao exportar para Excel: " + e.getMessage());
             }
         }
+
     }
     
     // Menu option: abrir tela de gerência dos alunos
