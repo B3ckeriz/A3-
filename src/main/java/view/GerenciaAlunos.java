@@ -244,7 +244,11 @@ public class GerenciaAlunos extends javax.swing.JFrame {
             try {
                 File fileXLS = new File(path);
                 if (fileXLS.exists()){
-                    fileXLS.delete();
+                    boolean isDeleted = fileXLS.delete();
+                    if (!isDeleted) {
+                        System.out.println("Erro: Não foi possível deletar o arquivo: " + fileXLS.getAbsolutePath());
+                        throw new IOException("Não foi possível deletar o arquivo: " + fileXLS.getAbsolutePath());
+                    }
                 }
                 fileXLS.createNewFile();
 
