@@ -18,19 +18,16 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
-// Classe GerenciaAlunos herda as características de javax.swing.JFrame
 public class GerenciaProfessores extends javax.swing.JFrame {
-    private Professor objetoProfessor;
-    
-    // Construtor
+
+    private final Professor objetoProfessor = new Professor();
+
     public GerenciaProfessores() {
         initComponents();
-        this.objetoProfessor = new Professor(); // Apontador para a Classe Professor
-        this.carregaTabela();
+        carregaTabela();
     }
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         bCadastro = new javax.swing.JButton();
@@ -51,137 +48,69 @@ public class GerenciaProfessores extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gerência de Professores");
-        setBackground(new java.awt.Color(80, 80, 80));
         setResizable(false);
 
         bCadastro.setText("Cadastrar novo");
-        bCadastro.setToolTipText("");
-        bCadastro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bCadastroActionPerformed(evt);
-            }
-        });
+        bCadastro.addActionListener(evt -> bCadastroActionPerformed(evt));
 
         bEditar.setText("Editar");
-        bEditar.setToolTipText("");
-        bEditar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bEditarActionPerformed(evt);
-            }
-        });
+        bEditar.addActionListener(evt -> bEditarActionPerformed(evt));
 
         bDeletar.setText("Deletar");
-        bDeletar.setToolTipText("");
-        bDeletar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bDeletarActionPerformed(evt);
-            }
-        });
+        bDeletar.addActionListener(evt -> bDeletarActionPerformed(evt));
 
         jTableProfessores.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "ID", "Nome", "Idade", "Campus", "CPF", "Contato", "Título", "Salário"
-            }
+                new Object[][]{},
+                new String[]{
+                    "ID", "Nome", "Idade", "Campus", "CPF", "Contato", "Título", "Salário"
+                }
         ) {
-            boolean[] canEdit = new boolean [] {
+            boolean[] canEdit = new boolean[]{
                 false, false, false, false, false, false, false, false
             };
-
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+                return canEdit[columnIndex];
             }
         });
-        jTableProfessores.setSelectionForeground(new java.awt.Color(239, 239, 239));
+
         jTableProfessores.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTableProfessoresMouseClicked(evt);
             }
         });
-        jScrollPane2.setViewportView(jTableProfessores);
-        if (jTableProfessores.getColumnModel().getColumnCount() > 0) {
-            jTableProfessores.getColumnModel().getColumn(0).setMinWidth(40);
-            jTableProfessores.getColumnModel().getColumn(0).setMaxWidth(40);
-            jTableProfessores.getColumnModel().getColumn(2).setMinWidth(40);
-            jTableProfessores.getColumnModel().getColumn(2).setMaxWidth(40);
-            jTableProfessores.getColumnModel().getColumn(7).setMinWidth(75);
-            jTableProfessores.getColumnModel().getColumn(7).setMaxWidth(75);
-        }
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 40)); // NOI18N
+        jScrollPane2.setViewportView(jTableProfessores);
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 40));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Cadastro de Professores");
 
-        refresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/refresh.png"))); // NOI18N
         refresh.setText("  Atualizar tabela");
-        refresh.setToolTipText("CTRL+R");
-        refresh.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                refreshActionPerformed(evt);
-            }
-        });
+        refresh.addActionListener(evt -> refreshActionPerformed(evt));
 
         export.setText("Exportar para Excel");
-        export.setToolTipText("CTRL+E");
-        export.setMaximumSize(new java.awt.Dimension(103, 22));
-        export.setMinimumSize(new java.awt.Dimension(103, 22));
-        export.setPreferredSize(new java.awt.Dimension(103, 22));
-        export.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exportActionPerformed(evt);
-            }
-        });
+        export.addActionListener(evt -> exportActionPerformed(evt));
 
-        menu.setForeground(new java.awt.Color(239, 239, 239));
         menu.setText("Arquivo");
 
-        menuGerenciaAluno.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         menuGerenciaAluno.setText("Gerência de Alunos");
-        menuGerenciaAluno.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuGerenciaAlunoActionPerformed(evt);
-            }
-        });
+        menuGerenciaAluno.addActionListener(evt -> menuGerenciaAlunoActionPerformed(evt));
         menu.add(menuGerenciaAluno);
 
-        menuExport.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         menuExport.setText("Exportar para Excel");
-        menuExport.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuExportActionPerformed(evt);
-            }
-        });
+        menuExport.addActionListener(evt -> menuExportActionPerformed(evt));
         menu.add(menuExport);
 
-        menuRefresh.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         menuRefresh.setText("Atualizar tabela");
-        menuRefresh.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuRefreshActionPerformed(evt);
-            }
-        });
+        menuRefresh.addActionListener(evt -> menuRefreshActionPerformed(evt));
         menu.add(menuRefresh);
 
         sobre.setText("Sobre");
-        sobre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sobreActionPerformed(evt);
-            }
-        });
+        sobre.addActionListener(evt -> sobreActionPerformed(evt));
         menu.add(sobre);
 
-        menuLeave.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         menuLeave.setText("Sair");
-        menuLeave.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuLeaveActionPerformed(evt);
-            }
-        });
+        menuLeave.addActionListener(evt -> menuLeaveActionPerformed(evt));
         menu.add(menuLeave);
 
         jMenuBar1.add(menu);
@@ -190,188 +119,184 @@ public class GerenciaProfessores extends javax.swing.JFrame {
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
+
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 859, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(65, 65, 65)
-                        .addComponent(bCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(export, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 859, Short.MAX_VALUE)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(65, 65, 65)
+                                                .addComponent(bCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(bEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(bDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 173, Short.MAX_VALUE)
+                                                .addComponent(export, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addContainerGap())
         );
+
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(bCadastro)
-                        .addComponent(bEditar)
-                        .addComponent(bDeletar)
-                        .addComponent(export, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
-                .addContainerGap())
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(bCadastro)
+                                        .addComponent(bEditar)
+                                        .addComponent(bDeletar)
+                                        .addComponent(refresh)
+                                        .addComponent(export, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
+                                .addContainerGap())
         );
 
         pack();
         setLocationRelativeTo(null);
-    }// </editor-fold>//GEN-END:initComponents
-    
-    // Método responsável por exportar para Excel
-    private void exportXls() throws IOException{
+    }
+
+    private void exportXls() throws IOException {
+
         JFileChooser chooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Arquivos Excel", "xls");
-        
+
         chooser.setFileFilter(filter);
         chooser.setDialogTitle("Salvar arquivo");
         chooser.setAcceptAllFileFilterUsed(false);
-        
-        if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION){
+
+        if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+
             String path = chooser.getSelectedFile().toString().concat(".xls");
+
             try {
                 File fileXLS = new File(path);
-                if (fileXLS.exists()){
-                    fileXLS.delete();
-                }
-                fileXLS.createNewFile();
-                Workbook book = new HSSFWorkbook();
-                FileOutputStream file = new FileOutputStream(fileXLS);
-                Sheet sheet = book.createSheet("Minha folha de trabalho 1");
-                sheet.setDisplayGridlines(true);
-                
-                for (int i = 0; i < this.jTableProfessores.getRowCount(); i++){
-                    Row row = sheet.createRow(i);
-                    for (int j = 0; j < this.jTableProfessores.getColumnCount(); j++){
-                        Cell cell = row.createCell(j);
-                        if (i == 0){
-                            cell.setCellValue(this.jTableProfessores.getColumnName(j));
-                        }
+
+                if (fileXLS.exists()) {
+                    boolean deleted = fileXLS.delete();
+                    if (!deleted) {
+                        throw new IOException("Não foi possível substituir o arquivo existente.");
                     }
                 }
-                
-                int firstRow = 1;
-                
-                for (int linha = 0; linha < this.jTableProfessores.getRowCount(); linha++){
-                    Row row2 = sheet.createRow(firstRow);
-                    firstRow++;
-                    for (int coluna = 0; coluna < this.jTableProfessores.getColumnCount(); coluna++){
-                        Cell cell2 = row2.createCell(coluna);
-                        if (this.jTableProfessores.getValueAt(linha, coluna) instanceof Double){
-                            cell2.setCellValue(Double.parseDouble((String) this.jTableProfessores.getValueAt(linha, coluna).toString()));
-                        } else if (this.jTableProfessores.getValueAt(linha, coluna) instanceof Float){
-                            cell2.setCellValue(Float.parseFloat((String) this.jTableProfessores.getValueAt(linha, coluna)));
-                        } else if (this.jTableProfessores.getValueAt(linha, coluna) instanceof Integer){
-                            cell2.setCellValue(Integer.parseInt((String) this.jTableProfessores.getValueAt(linha, coluna).toString()));
-                        } else {
-                            cell2.setCellValue(String.valueOf(this.jTableProfessores.getValueAt(linha, coluna)));
+
+                if (!fileXLS.createNewFile()) {
+                    throw new IOException("Não foi possível criar o arquivo.");
+                }
+
+                try (Workbook book = new HSSFWorkbook();
+                     FileOutputStream fileOut = new FileOutputStream(fileXLS)) {
+
+                    Sheet sheet = book.createSheet("Minha folha de trabalho 1");
+                    sheet.setDisplayGridlines(true);
+
+                    for (int i = 0; i < this.jTableProfessores.getRowCount(); i++) {
+                        Row row = sheet.createRow(i);
+                        for (int j = 0; j < this.jTableProfessores.getColumnCount(); j++) {
+                            Cell cell = row.createCell(j);
+                            if (i == 0) {
+                                cell.setCellValue(this.jTableProfessores.getColumnName(j));
+                            }
                         }
                     }
+
+                    int firstRow = 1;
+
+                    for (int linha = 0; linha < this.jTableProfessores.getRowCount(); linha++) {
+                        Row row2 = sheet.createRow(firstRow++);
+                        for (int coluna = 0; coluna < this.jTableProfessores.getColumnCount(); coluna++) {
+
+                            Cell cell2 = row2.createCell(coluna);
+                            Object value = this.jTableProfessores.getValueAt(linha, coluna);
+
+                            if (value instanceof Double) {
+                                cell2.setCellValue((Double) value);
+                            } else if (value instanceof Float) {
+                                cell2.setCellValue((Float) value);
+                            } else if (value instanceof Integer) {
+                                cell2.setCellValue((Integer) value);
+                            } else {
+                                cell2.setCellValue(value != null ? value.toString() : "");
+                            }
+                        }
+                    }
+
+                    book.write(fileOut);
                 }
-                book.write(file);
-                file.close();
-            } catch (IOException | NumberFormatException e){
-                throw e;
+
+            } catch (IOException | NumberFormatException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Erro ao exportar para Excel: " + e.getMessage());
             }
         }
     }
-    
-    // Menu option: abrir tela de gerência dos alunos
-    private void menuGerenciaAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuGerenciaAlunoActionPerformed
+
+    private void menuGerenciaAlunoActionPerformed(java.awt.event.ActionEvent evt) {
         GerenciaAlunos tela = new GerenciaAlunos();
         tela.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_menuGerenciaAlunoActionPerformed
-    
-    // Menu option: sair do sistema
-    private void menuLeaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLeaveActionPerformed
+    }
+
+    private void menuLeaveActionPerformed(java.awt.event.ActionEvent evt) {
         System.exit(0);
-    }//GEN-LAST:event_menuLeaveActionPerformed
-    
-    // Button: cadastrar novo professor
-    private void bCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCadastroActionPerformed
+    }
+
+    private void bCadastroActionPerformed(java.awt.event.ActionEvent evt) {
         try {
             CadastroProfessor tela = new CadastroProfessor();
             tela.setVisible(true);
         } catch (ParseException ex) {
             Logger.getLogger(GerenciaProfessores.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-    }//GEN-LAST:event_bCadastroActionPerformed
-    
-    // Button: editar professor cadastrado
-    private void bEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEditarActionPerformed
+    }
+
+    private void bEditarActionPerformed(java.awt.event.ActionEvent evt) {
         try {
-            if (this.jTableProfessores.getSelectedRow() != -1){
+            if (this.jTableProfessores.getSelectedRow() != -1) {
                 EditarProfessor tela = new EditarProfessor();
                 tela.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Selecione um cadastro para alterar");
-            } 
+            }
         } catch (ParseException ex) {
             Logger.getLogger(GerenciaProfessores.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-    }//GEN-LAST:event_bEditarActionPerformed
-    
+    }
+
     public static String listaDados[] = new String[8];
-    
-    // Método que realiza a validação dos campos formatados (retornando somente os números)
-    private String validarFormatado(String input){
-        String str = "";
-            
-        for (int i = 0; i < input.length(); i++){
-            if (("0123456789").contains(input.charAt(i) + "")){
-                str += input.charAt(i) + "";
+
+    private String validarFormatado(String input) {
+        StringBuilder str = new StringBuilder();
+        for (int i = 0; i < input.length(); i++) {
+            if (Character.isDigit(input.charAt(i))) {
+                str.append(input.charAt(i));
             }
         }
-        
-        return str;
+        return str.toString();
     }
-    
-    // Armazenar dados do professor selecionado na tabela
-    private void jTableProfessoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableProfessoresMouseClicked
+
+    private void jTableProfessoresMouseClicked(java.awt.event.MouseEvent evt) {
         if (this.jTableProfessores.getSelectedRow() != -1) {
 
-            String nome = this.jTableProfessores.getValueAt(this.jTableProfessores.getSelectedRow(), 1).toString();
-            String idade = this.jTableProfessores.getValueAt(this.jTableProfessores.getSelectedRow(), 2).toString();
-            String campus = this.jTableProfessores.getValueAt(this.jTableProfessores.getSelectedRow(), 3).toString();
-            String cpf = this.jTableProfessores.getValueAt(this.jTableProfessores.getSelectedRow(), 4).toString();
-            String contato = this.jTableProfessores.getValueAt(this.jTableProfessores.getSelectedRow(), 5).toString();
-            String titulo = this.jTableProfessores.getValueAt(this.jTableProfessores.getSelectedRow(), 6).toString();
-            String salario = this.jTableProfessores.getValueAt(this.jTableProfessores.getSelectedRow(), 7).toString();
-            String id = this.jTableProfessores.getValueAt(this.jTableProfessores.getSelectedRow(), 0).toString();
-            
-            listaDados[0] = nome;
-            listaDados[1] = idade;
-            listaDados[2] = campus;
-            listaDados[3] = cpf;
-            listaDados[4] = contato;
-            listaDados[5] = titulo;
-            listaDados[6] = validarFormatado(salario);
-            listaDados[7] = id;
+            listaDados[0] = this.jTableProfessores.getValueAt(this.jTableProfessores.getSelectedRow(), 1).toString();
+            listaDados[1] = this.jTableProfessores.getValueAt(this.jTableProfessores.getSelectedRow(), 2).toString();
+            listaDados[2] = this.jTableProfessores.getValueAt(this.jTableProfessores.getSelectedRow(), 3).toString();
+            listaDados[3] = this.jTableProfessores.getValueAt(this.jTableProfessores.getSelectedRow(), 4).toString();
+            listaDados[4] = this.jTableProfessores.getValueAt(this.jTableProfessores.getSelectedRow(), 5).toString();
+            listaDados[5] = this.jTableProfessores.getValueAt(this.jTableProfessores.getSelectedRow(), 6).toString();
+            listaDados[6] = validarFormatado(this.jTableProfessores.getValueAt(this.jTableProfessores.getSelectedRow(), 7).toString());
+            listaDados[7] = this.jTableProfessores.getValueAt(this.jTableProfessores.getSelectedRow(), 0).toString();
         }
-    }//GEN-LAST:event_jTableProfessoresMouseClicked
-    
-    // Button: deletar professor selecionado
-    private void bDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeletarActionPerformed
+    }
+
+    private void bDeletarActionPerformed(java.awt.event.ActionEvent evt) {
         try {
-            // validando dados da interface gráfica.
-            int id = 0;
-            
+            int id;
+
             if (this.jTableProfessores.getSelectedRow() == -1) {
                 throw new Mensagens("Selecione um cadastro para deletar");
             } else {
@@ -379,91 +304,79 @@ public class GerenciaProfessores extends javax.swing.JFrame {
             }
 
             String[] options = {"Sim", "Não"};
-            int respostaUsuario = JOptionPane.showOptionDialog(null, "Tem certeza que deseja apagar este cadastro?", "Confirmar exclusão", 
-            JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[1]);
+            int respostaUsuario = JOptionPane.showOptionDialog(
+                    null,
+                    "Tem certeza que deseja apagar este cadastro?",
+                    "Confirmar exclusão",
+                    JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.INFORMATION_MESSAGE,
+                    null, options, options[1]
+            );
 
-            if (respostaUsuario == 0) {// clicou em SIM
-
-                // envia os dados para o Professor processar
+            if (respostaUsuario == 0) {
                 if (this.objetoProfessor.DeleteProfessorBD(id)) {
                     JOptionPane.showMessageDialog(rootPane, "Cadastro apagado com sucesso!");
                 }
             }
+
         } catch (Mensagens erro) {
-            JOptionPane.showMessageDialog(rootPane, erro.getMessage());
+            JOptionPane.showMessageDialog(null, erro.getMessage());
         } finally {
-            // atualiza a tabela.
             carregaTabela();
         }
-    }//GEN-LAST:event_bDeletarActionPerformed
+    }
 
-    // Atualizar novas informações cadastradas ou editadas
-    private void refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshActionPerformed
-        this.carregaTabela();
-    }//GEN-LAST:event_refreshActionPerformed
-    
-    // Menu option: atualizar novas informações cadastradas ou editadas
-    private void menuRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuRefreshActionPerformed
-        this.carregaTabela();
-    }//GEN-LAST:event_menuRefreshActionPerformed
-    
-    // Menu option: exportar tabela para Excel
-    private void menuExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuExportActionPerformed
+    private void refreshActionPerformed(java.awt.event.ActionEvent evt) {
+        carregaTabela();
+    }
+
+    private void menuRefreshActionPerformed(java.awt.event.ActionEvent evt) {
+        carregaTabela();
+    }
+
+    private void menuExportActionPerformed(java.awt.event.ActionEvent evt) {
         try {
-            this.exportXls();
+            exportXls();
         } catch (IOException ex) {
             Logger.getLogger(GerenciaProfessores.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_menuExportActionPerformed
-    
-    // Button: exportar tabela para Excel
-    private void exportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportActionPerformed
+    }
+
+    private void exportActionPerformed(java.awt.event.ActionEvent evt) {
         try {
-            this.exportXls();
+            exportXls();
         } catch (IOException ex) {
             Logger.getLogger(GerenciaProfessores.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_exportActionPerformed
-    
-    // Abre a janela com as informações do software (about)
-    private void sobreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sobreActionPerformed
+    }
+
+    private void sobreActionPerformed(java.awt.event.ActionEvent evt) {
         Sobre tela = new Sobre();
         tela.setVisible(true);
-    }//GEN-LAST:event_sobreActionPerformed
-    
-    @SuppressWarnings("unchecked")  
-    // Realiza a varredura no banco de dados e imprime as informações na tabela da tela de gerência
+    }
+
     public void carregaTabela() {
         DefaultTableModel modelo = (DefaultTableModel) this.jTableProfessores.getModel();
         modelo.setNumRows(0);
 
         List<Professor> minhalista = objetoProfessor.getMinhaLista();
 
-        for (Professor a : minhalista) {
+        for (Professor p : minhalista) {
             modelo.addRow(new Object[]{
-                a.getId(),
-                a.getNome(),
-                a.getIdade(),
-                a.getCampus(),
-                a.getCpf(),
-                a.getContato(),
-                a.getTitulo(),
-                "R$" + a.getSalario() + ".00"
+                p.getId(),
+                p.getNome(),
+                p.getIdade(),
+                p.getCampus(),
+                p.getCpf(),
+                p.getContato(),
+                p.getTitulo(),
+                "R$" + p.getSalario() + ".00"
             });
         }
     }
 
-    
-    
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -471,29 +384,13 @@ public class GerenciaProfessores extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GerenciaProfessores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GerenciaProfessores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GerenciaProfessores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GerenciaProfessores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(GerenciaProfessores.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GerenciaProfessores().setVisible(true);
-            }
-        });
+        java.awt.EventQueue.invokeLater(() -> new GerenciaProfessores().setVisible(true));
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCadastro;
     private javax.swing.JButton bDeletar;
     private javax.swing.JButton bEditar;
@@ -509,5 +406,4 @@ public class GerenciaProfessores extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuRefresh;
     private javax.swing.JButton refresh;
     private javax.swing.JMenuItem sobre;
-    // End of variables declaration//GEN-END:variables
 }
