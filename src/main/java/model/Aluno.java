@@ -80,7 +80,7 @@ public class Aluno extends Pessoa {
 
     // Deleta um aluno específico pelo seu campo ID
     public boolean deleteAlunoBD(int id) {
-        dao.deleteAluno(id);
+        dao.deleteAlunoBD(id);
         return true;
     }
 
