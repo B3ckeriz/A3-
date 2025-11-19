@@ -314,7 +314,7 @@ public class GerenciaProfessores extends javax.swing.JFrame {
             );
 
             if (respostaUsuario == 0) {
-                if (this.objetoProfessor.DeleteProfessorBD(id)) {
+                if (this.objetoProfessor.deleteProfessor(id)) {
                     JOptionPane.showMessageDialog(rootPane, "Cadastro apagado com sucesso!");
                 }
             }

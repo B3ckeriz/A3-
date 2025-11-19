@@ -73,21 +73,21 @@ public class Aluno extends Pessoa {
     public boolean insertAlunoBD(String curso, int fase, String nome, int idade) throws SQLException {
         int id = this.maiorID() + 1;
         Aluno objeto = new Aluno(curso, fase, id, nome, idade);
-        dao.InsertAlunoBD(objeto);
+        dao.insertAluno(objeto);
         return true;
 
     }
 
     // Deleta um aluno específico pelo seu campo ID
     public boolean deleteAlunoBD(int id) {
-        dao.DeleteAlunoBD(id);
+        dao.deleteAlunoBD(id);
         return true;
     }
 
     // Edita um aluno específico pelo seu campo ID
-    public boolean updateAlunoBD(String curso, int fase, int id, String nome, int idade) {
+    public boolean updateAluno(String curso, int fase, int id, String nome, int idade) {
         Aluno objeto = new Aluno(curso, fase, id, nome, idade);
-        dao.UpdateAlunoBD(objeto);
+        dao.updateAluno(objeto);
         return true;
     }
 

@@ -79,13 +79,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-junit-jupiter</artifactId>
-			<version>${mockito.version}</version>
-			<scope>test</scope>
-		</dependency>
-
 		<!-- Banco em memória -->
 		<dependency>
 			<groupId>com.h2database</groupId>
@@ -149,7 +142,19 @@
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.14</version>
+
+				<configuration>
+					<!-- EXCLUSÃO DE INTERFACE GRÁFICA (Swing) -->
+					<excludes>
+						<exclude>**/view/**</exclude>
+						<exclude>**/*Form.java</exclude>
+						<exclude>**/*Tela*.java</exclude>
+					</excludes>
+				</configuration>
+
 				<executions>
+
+					<!-- Prepara o agente antes dos testes -->
 					<execution>
 						<id>prepare-agent</id>
 						<goals>
@@ -157,6 +162,7 @@
 						</goals>
 					</execution>
 
+					<!-- Gera o relatório após os testes -->
 					<execution>
 						<id>report</id>
 						<phase>test</phase>
@@ -164,6 +170,16 @@
 							<goal>report</goal>
 						</goals>
 					</execution>
+
+					<!-- Opcional: relatório para verificação -->
+					<execution>
+						<id>post-unit-test</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+
 				</executions>
 			</plugin>
 

@@ -2,57 +2,40 @@ package dao;
 
 import model.Aluno;
 
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.*;
 
 public class AlunoDAO {
 
     private static final Logger logger = Logger.getLogger(AlunoDAO.class.getName());
-    public static ArrayList<Aluno> MinhaLista = new ArrayList<>();
+
+    private String databaseUrl = "jdbc:sqlite:database.db";
+    private boolean isTestMode = false;
 
     public AlunoDAO() {
-        criarTabelaSeNecessario();
-    }
-
-    public int maiorID() {
-        int maiorID = 0;
-
-        String sql = "SELECT MAX(id) AS id FROM tb_alunos";
-
-        try (Connection conn = getConexao();
-             Statement stmt = conn.createStatement();
-             ResultSet res = stmt.executeQuery(sql)) {
-
-            if (res.next()) {
-                maiorID = res.getInt("id");
-            }
-
-        } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "Erro ao buscar maior ID", ex);
-            throw new RuntimeException("Erro ao buscar maior ID", ex);
+        if (!isTestMode) {
+            criarTabelaSeNecessario();
         }
-
-        return maiorID;
     }
 
-   public static Connection getConexao() {
-    try {
-        String url = System.getenv("DATABASE_URL");
-        if (url == null || url.isEmpty()) {
-            //  arquivo persistente ao invés de memória
-            url = "jdbc:sqlite:database.db";
+    // Troca o banco ao rodar testes
+    public void setTestDatabase(String url) {
+        this.databaseUrl = url;
+        this.isTestMode = true;
+    }
+
+    public Connection getConexao() {
+        try {
+            return DriverManager.getConnection(databaseUrl);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        System.out.println("URL utilizada: " + url);
-        return DriverManager.getConnection(url);
-    } catch (SQLException e) {
-        throw new RuntimeException(e);
     }
-}
 
     private void criarTabelaSeNecessario() {
-        String sqlAlunos = """
+        String sql = """
             CREATE TABLE IF NOT EXISTS tb_alunos (
                 id INTEGER PRIMARY KEY,
                 nome TEXT NOT NULL,
@@ -65,17 +48,26 @@ public class AlunoDAO {
         try (Connection conn = getConexao();
              Statement stmt = conn.createStatement()) {
 
-            stmt.execute(sqlAlunos);
-            logger.info("Tabela tb_alunos verificada/criada!");
+            stmt.execute(sql);
 
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Erro ao criar tabela tb_alunos", e);
             throw new RuntimeException("Erro ao criar tabela tb_alunos", e);
         }
     }
 
-    public ArrayList<Aluno> getMinhaLista() {
-        MinhaLista.clear();
+    public int maiorID() throws SQLException {
+        String sql = "SELECT MAX(id) AS id FROM tb_alunos";
+
+        try (Connection conn = getConexao();
+             Statement stmt = conn.createStatement();
+             ResultSet res = stmt.executeQuery(sql)) {
+
+            return res.next() ? res.getInt("id") : 0;
+        }
+    }
+
+    public List<Aluno> getMinhaLista() {
+        List<Aluno> lista = new ArrayList<>();
 
         String sql = "SELECT * FROM tb_alunos";
 
@@ -91,19 +83,21 @@ public class AlunoDAO {
                         res.getString("nome"),
                         res.getInt("idade")
                 );
-                MinhaLista.add(a);
+                lista.add(a);
             }
 
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "Erro ao carregar lista de alunos", ex);
-            throw new RuntimeException("Erro ao carregar lista de alunos", ex);
+            throw new RuntimeException("Erro ao carregar lista", ex);
         }
 
-        return MinhaLista;
+        return lista;
     }
 
-    public boolean InsertAlunoBD(Aluno objeto) {
-        String sql = "INSERT INTO tb_alunos (id, nome, idade, curso, fase) VALUES (?, ?, ?, ?, ?)";
+    public boolean insertAluno(Aluno objeto) {
+        String sql = """
+            INSERT INTO tb_alunos (id, nome, idade, curso, fase)
+            VALUES (?, ?, ?, ?, ?)
+        """;
 
         try (Connection conn = getConexao();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -118,12 +112,11 @@ public class AlunoDAO {
             return true;
 
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Erro ao inserir aluno", e);
             throw new RuntimeException("Erro ao inserir aluno", e);
         }
     }
 
-    public boolean DeleteAlunoBD(int id) {
+    public boolean deleteAluno(int id) {
         String sql = "DELETE FROM tb_alunos WHERE id = ?";
 
         try (Connection conn = getConexao();
@@ -131,16 +124,14 @@ public class AlunoDAO {
 
             stmt.setInt(1, id);
             stmt.executeUpdate();
+            return true;
 
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Erro ao deletar aluno", e);
             throw new RuntimeException("Erro ao deletar aluno", e);
         }
-
-        return true;
     }
 
-    public boolean UpdateAlunoBD(Aluno objeto) {
+    public boolean updateAluno(Aluno objeto) {
         String sql = """
             UPDATE tb_alunos
             SET nome = ?, idade = ?, curso = ?, fase = ?
@@ -156,11 +147,10 @@ public class AlunoDAO {
             stmt.setInt(4, objeto.getFase());
             stmt.setInt(5, objeto.getId());
 
-            stmt.execute();
+            stmt.executeUpdate();
             return true;
 
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Erro ao atualizar aluno", e);
             throw new RuntimeException("Erro ao atualizar aluno", e);
         }
     }
@@ -168,27 +158,25 @@ public class AlunoDAO {
     public Aluno carregaAluno(int id) {
         String sql = "SELECT * FROM tb_alunos WHERE id = ?";
 
-        Aluno objeto = new Aluno();
-        objeto.setId(id);
-
         try (Connection conn = getConexao();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, id);
+
             ResultSet res = stmt.executeQuery();
 
-            if (res.next()) {
-                objeto.setNome(res.getString("nome"));
-                objeto.setIdade(res.getInt("idade"));
-                objeto.setCurso(res.getString("curso"));
-                objeto.setFase(res.getInt("fase"));
-            }
+            if (!res.next()) return null;
+
+            return new Aluno(
+                    res.getString("curso"),
+                    res.getInt("fase"),
+                    res.getInt("id"),
+                    res.getString("nome"),
+                    res.getInt("idade")
+            );
 
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Erro ao carregar aluno", e);
             throw new RuntimeException("Erro ao carregar aluno", e);
         }
-
-        return objeto;
     }
 }

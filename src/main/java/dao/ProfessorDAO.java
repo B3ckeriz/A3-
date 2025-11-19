@@ -1,78 +1,54 @@
 package dao;
 
 import model.Professor;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 public class ProfessorDAO {
 
-    private final List<Professor> listaProfessores = new ArrayList<>();
+    private List<Professor> listaProfessores = new ArrayList<>();
+    private String databaseUrl = "jdbc:sqlite:database.db";
+    private boolean isTestMode = false;
 
     public ProfessorDAO() {
-        criarTabelaSeNecessario();
-    }
-
-    public int maiorID() {
-        String sql = "SELECT MAX(id) AS id FROM tb_professores";
-
-        try (Connection conn = getConexao();
-             Statement stmt = conn.createStatement();
-             ResultSet res = stmt.executeQuery(sql)) {
-
-            if (res.next()) {
-                return res.getInt("id");
-            }
-
-        } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao buscar maior ID", ex);
+        if (!isTestMode) {
+            criarTabelaSeNecessario();
         }
-
-        return 0;
     }
 
-    public static Connection getConnection() {
+    public void setTestDatabase(String url) {
+        this.databaseUrl = url;
+        this.isTestMode = true;
+    }
+
+    public Connection getConexao() {
         try {
-            String url = System.getenv("DATABASE_URL");
-            if (url == null || url.isEmpty()) {
-                url = "jdbc:sqlite:database.db";
-            }
-            return DriverManager.getConnection(url);
+            return DriverManager.getConnection(databaseUrl);
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao conectar ao banco", e);
         }
     }
 
-    public Connection getConexao() {
-        return getConnection();
-    }
-
     private void criarTabelaSeNecessario() {
         String sql = """
-                CREATE TABLE IF NOT EXISTS tb_professores (
-                    id INTEGER PRIMARY KEY,
-                    nome TEXT NOT NULL,
-                    idade INTEGER,
-                    campus TEXT,
-                    cpf TEXT,
-                    contato TEXT,
-                    titulo TEXT,
-                    salario INTEGER
-                )
-                """;
+            CREATE TABLE IF NOT EXISTS tb_professores (
+                id INTEGER PRIMARY KEY,
+                nome TEXT NOT NULL,
+                idade INTEGER,
+                campus TEXT,
+                cpf TEXT,
+                contato TEXT,
+                titulo TEXT,
+                salario REAL
+            )
+        """;
 
         try (Connection conn = getConexao();
              Statement stmt = conn.createStatement()) {
-
             stmt.execute(sql);
-
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao criar tabela tb_professores", e);
+            throw new RuntimeException("Erro ao criar tabela", e);
         }
     }
 
@@ -85,37 +61,48 @@ public class ProfessorDAO {
              ResultSet res = stmt.executeQuery(sql)) {
 
             while (res.next()) {
-
-                String campus = res.getString("campus");
-                if (campus == null) campus = "Não informado";
-
-                Professor p = new Professor(
-                        campus,
-                        res.getString("cpf"),
-                        res.getString("contato"),
-                        res.getString("titulo"),
-                        res.getInt("salario"),
-                        res.getInt("id"),
-                        res.getString("nome"),
-                        res.getInt("idade")
-                );
+                Professor p = new Professor();
+                p.setId(res.getInt("id"));
+                p.setNome(res.getString("nome"));
+                p.setIdade(res.getInt("idade"));
+                p.setCampus(res.getString("campus"));
+                p.setCpf(res.getString("cpf"));
+                p.setContato(res.getString("contato"));
+                p.setTitulo(res.getString("titulo"));
+                p.setSalario(res.getDouble("salario"));
 
                 listaProfessores.add(p);
             }
 
         } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao carregar lista de professores", ex);
+            throw new RuntimeException("Erro ao carregar lista", ex);
         }
 
         return listaProfessores;
     }
 
+    /* Métodos padronizados para os testes */
+
+    public boolean insertProfessor(Professor p) {
+        return InsertProfessorBD(p);
+    }
+
+    public boolean updateProfessor(Professor p) {
+        return UpdateProfessorBD(p);
+    }
+
+    public boolean deleteProfessor(int id) {
+        return DeleteProfessorBD(id);
+    }
+
+    /* Implementação de CRUD */
+
     public boolean InsertProfessorBD(Professor objeto) {
         String sql = """
-                INSERT INTO tb_professores
-                (id, nome, idade, campus, cpf, contato, titulo, salario)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                """;
+            INSERT INTO tb_professores
+            (id, nome, idade, campus, cpf, contato, titulo, salario)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        """;
 
         try (Connection conn = getConexao();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -127,7 +114,7 @@ public class ProfessorDAO {
             stmt.setString(5, objeto.getCpf());
             stmt.setString(6, objeto.getContato());
             stmt.setString(7, objeto.getTitulo());
-            stmt.setInt(8, objeto.getSalario());
+            stmt.setDouble(8, objeto.getSalario());
 
             stmt.executeUpdate();
             return true;
@@ -154,10 +141,10 @@ public class ProfessorDAO {
 
     public boolean UpdateProfessorBD(Professor objeto) {
         String sql = """
-                UPDATE tb_professores
-                SET nome = ?, idade = ?, campus = ?, cpf = ?, contato = ?, titulo = ?, salario = ?
-                WHERE id = ?
-                """;
+            UPDATE tb_professores
+            SET nome = ?, idade = ?, campus = ?, cpf = ?, contato = ?, titulo = ?, salario = ?
+            WHERE id = ?
+        """;
 
         try (Connection conn = getConexao();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -168,7 +155,7 @@ public class ProfessorDAO {
             stmt.setString(4, objeto.getCpf());
             stmt.setString(5, objeto.getContato());
             stmt.setString(6, objeto.getTitulo());
-            stmt.setInt(7, objeto.getSalario());
+            stmt.setDouble(7, objeto.getSalario());
             stmt.setInt(8, objeto.getId());
 
             stmt.executeUpdate();
@@ -189,7 +176,6 @@ public class ProfessorDAO {
 
             try (ResultSet res = stmt.executeQuery()) {
                 if (res.next()) {
-
                     Professor p = new Professor();
                     p.setId(id);
                     p.setNome(res.getString("nome"));
@@ -198,7 +184,7 @@ public class ProfessorDAO {
                     p.setCpf(res.getString("cpf"));
                     p.setContato(res.getString("contato"));
                     p.setTitulo(res.getString("titulo"));
-                    p.setSalario(res.getInt("salario"));
+                    p.setSalario(res.getDouble("salario"));
 
                     return p;
                 }
@@ -209,5 +195,21 @@ public class ProfessorDAO {
         }
 
         return null;
+    }
+
+    /* Suporte para Professor.maiorID() */
+
+    public int maiorID() throws SQLException {
+        String sql = "SELECT MAX(id) AS id FROM tb_professores";
+
+        try (Connection conn = getConexao();
+             Statement stmt = conn.createStatement();
+             ResultSet res = stmt.executeQuery(sql)) {
+
+            if (res.next()) {
+                return res.getInt("id");
+            }
+            return 0;
+        }
     }
 }
