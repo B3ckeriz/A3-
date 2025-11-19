@@ -1,6 +1,5 @@
 package view;
 
-import com.formdev.flatlaf.json.ParseException;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -14,7 +13,7 @@ import java.util.List;
 // Classe CadastroProfessor herda as características de javax.swing.JFrame
 public class CadastroProfessor extends javax.swing.JFrame {
     
-    private Professor objetoProfessor; // Apontador para a Classe Professor
+    private transient Professor objetoProfessor; // Apontador para a Classe Professor
     
     // Construtor
     public CadastroProfessor() throws java.text.ParseException {
@@ -188,18 +187,26 @@ public class CadastroProfessor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     
     // Método responsável pela implementação das máscaras dos campos
-    private void formatarCampos() throws java.text.ParseException{
-        try {
-            MaskFormatter mask = new MaskFormatter("###.###.###-##");
-            mask.install(cpfFormatado);
-            MaskFormatter mask2 = new MaskFormatter("(##) # ####-####");
-            mask2.install(contatoFormatado);
-            MaskFormatter mask3 = new MaskFormatter("R$#####");
-            mask3.install(salarioFormatado);
-        } catch (ParseException ex){
-            JOptionPane.showMessageDialog(null, "Erro ao formatar campos", "ERRO", JOptionPane.ERROR);
-        }
+    private void formatarCampos() {
+    try {
+        MaskFormatter mask = new MaskFormatter("###.###.###-##");
+        mask.install(cpfFormatado);
+
+        MaskFormatter mask2 = new MaskFormatter("(##) # ####-####");
+        mask2.install(contatoFormatado);
+
+        MaskFormatter mask3 = new MaskFormatter("R$#####");
+        mask3.install(salarioFormatado);
+
+    } catch (java.text.ParseException ex) {
+        JOptionPane.showMessageDialog(
+            null,
+            "Erro ao formatar campos",
+            "ERRO",
+            JOptionPane.ERROR_MESSAGE
+        );
     }
+}
     
     // Método que varre o banco de dados e retorna se o CPF já consta no mesmo
     private boolean verificaCpf(String cpf){
