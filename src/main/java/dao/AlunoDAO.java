@@ -98,18 +98,17 @@ public class AlunoDAO {
 
     public boolean insertAluno(Aluno objeto) {
         String sql = """
-            INSERT INTO tb_alunos (id, nome, idade, curso, fase)
-            VALUES (?, ?, ?, ?, ?)
-        """;
+        INSERT INTO tb_alunos (nome, idade, curso, fase)
+        VALUES (?, ?, ?, ?)
+    """;
 
         try (Connection conn = getConexao();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, objeto.getId());
-            stmt.setString(2, objeto.getNome());
-            stmt.setInt(3, objeto.getIdade());
-            stmt.setString(4, objeto.getCurso());
-            stmt.setInt(5, objeto.getFase());
+            stmt.setString(1, objeto.getNome());
+            stmt.setInt(2, objeto.getIdade());
+            stmt.setString(3, objeto.getCurso());
+            stmt.setInt(4, objeto.getFase());
 
             stmt.execute();
             return true;
@@ -159,7 +158,7 @@ public class AlunoDAO {
     }
 
     public Aluno carregaAluno(int id) {
-        String sql = "SELECT curso, fase, id, nome, idade FROM tb_alunos";
+        String sql = "SELECT curso, fase, id, nome, idade FROM tb_alunos WHERE id = ?";
 
         try (Connection conn = getConexao();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -168,8 +167,9 @@ public class AlunoDAO {
 
             ResultSet res = stmt.executeQuery();
 
-            if (!res.next()) return null;
+            if (!res.next()) return null; // Se não encontrar o registro, retorna null
 
+            // Cria e retorna um objeto Aluno
             return new Aluno(
                     res.getString("curso"),
                     res.getInt("fase"),
@@ -182,4 +182,5 @@ public class AlunoDAO {
             throw new DatabaseConnectionException("Erro ao carregar aluno", e);
         }
     }
+
 }
