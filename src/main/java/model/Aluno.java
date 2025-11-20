@@ -7,6 +7,7 @@ import java.sql.SQLException;
 // Classe Aluno herda as características de Pessoa
 public class Aluno extends Pessoa {
 
+    private static final long serialVersionUID = 1L;
     // Atributos
     private String curso;
     private int fase;
