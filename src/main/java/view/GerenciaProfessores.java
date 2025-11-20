@@ -1,29 +1,20 @@
 package view;
 
 import model.Professor;
-import java.io.File;
-import java.io.FileOutputStream;
+import util.ExcelExporter;
+import util.NavigationHelper;
+import util.TableHelper;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import util.ExcelExporter;
 
 public class GerenciaProfessores extends javax.swing.JFrame {
 
-    // ✅ Logger configurado corretamente
     private static final Logger LOGGER = Logger.getLogger(GerenciaProfessores.class.getName());
-    
     private final Professor objetoProfessor = new Professor();
 
     public GerenciaProfessores() {
@@ -165,19 +156,19 @@ public class GerenciaProfessores extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }
 
-    // ✅ MÉTODO CORRIGIDO - Removido e.printStackTrace()
+    // ✅ ATUALIZADO - Usa ExcelExporter
     private void exportXls() throws IOException {
         ExcelExporter.exportToExcel(jTableProfessores, this);
     }
 
+    // ✅ ATUALIZADO - Usa NavigationHelper
     private void menuGerenciaAlunoActionPerformed(java.awt.event.ActionEvent evt) {
-        GerenciaAlunos tela = new GerenciaAlunos();
-        tela.setVisible(true);
-        this.dispose();
+        NavigationHelper.goToGerenciaAlunos(this);
     }
 
+    // ✅ ATUALIZADO - Usa NavigationHelper
     private void menuLeaveActionPerformed(java.awt.event.ActionEvent evt) {
-        System.exit(0);
+        NavigationHelper.exitApplication();
     }
 
     private void bCadastroActionPerformed(java.awt.event.ActionEvent evt) {
@@ -285,29 +276,26 @@ public class GerenciaProfessores extends javax.swing.JFrame {
         }
     }
 
+    // ✅ ATUALIZADO - Usa NavigationHelper
     private void sobreActionPerformed(java.awt.event.ActionEvent evt) {
-        Sobre tela = new Sobre();
-        tela.setVisible(true);
+        NavigationHelper.showSobre();
     }
 
+    // ✅ ATUALIZADO - Usa TableHelper
     public void carregaTabela() {
         DefaultTableModel modelo = (DefaultTableModel) this.jTableProfessores.getModel();
-        modelo.setNumRows(0);
-
         List<Professor> minhalista = objetoProfessor.getMinhaLista();
 
-        for (Professor p : minhalista) {
-            modelo.addRow(new Object[]{
-                p.getId(),
-                p.getNome(),
-                p.getIdade(),
-                p.getCampus(),
-                p.getCpf(),
-                p.getContato(),
-                p.getTitulo(),
-                "R$" + p.getSalario() + ".00"
-            });
-        }
+        TableHelper.loadTable(modelo, minhalista, professor -> new Object[]{
+            professor.getId(),
+            professor.getNome(),
+            professor.getIdade(),
+            professor.getCampus(),
+            professor.getCpf(),
+            professor.getContato(),
+            professor.getTitulo(),
+            "R$" + professor.getSalario() + ".00"
+        });
     }
 
     public static void main(String args[]) {

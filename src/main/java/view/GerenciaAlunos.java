@@ -1,29 +1,19 @@
 package view;
 
 import model.Aluno;
-import java.io.File;
-import java.io.FileOutputStream;
+import util.ExcelExporter;
+import util.NavigationHelper;
+import util.TableHelper;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import util.ExcelExporter;
-
 
 public class GerenciaAlunos extends javax.swing.JFrame {
     
-    // Logger estático para toda a classe
     private static final Logger LOGGER = Logger.getLogger(GerenciaAlunos.class.getName());
-
     private final Aluno objetoAluno = new Aluno();
 
     public GerenciaAlunos() {
@@ -170,24 +160,19 @@ public class GerenciaAlunos extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }
 
-        /**
-     * Exporta os dados da tabela de alunos para um arquivo Excel (.xls).
-     * Abre um diálogo para o usuário escolher onde salvar o arquivo.
-     * 
-     * @throws IOException se houver erro ao criar ou escrever no arquivo
-     */
+    // ✅ ATUALIZADO - Usa ExcelExporter
     private void exportXls() throws IOException {
         ExcelExporter.exportToExcel(jTableAlunos, this);
     }
 
+    // ✅ ATUALIZADO - Usa NavigationHelper
     private void menuGerenciaProfessoresActionPerformed(java.awt.event.ActionEvent evt) {
-        GerenciaProfessores tela = new GerenciaProfessores();
-        tela.setVisible(true);
-        this.dispose();
+        NavigationHelper.goToGerenciaProfessores(this);
     }
 
+    // ✅ ATUALIZADO - Usa NavigationHelper
     private void menuLeaveActionPerformed(java.awt.event.ActionEvent evt) {
-        System.exit(0);
+        NavigationHelper.exitApplication();
     }
 
     private void bCadastroActionPerformed(java.awt.event.ActionEvent evt) {
@@ -280,7 +265,7 @@ public class GerenciaAlunos extends javax.swing.JFrame {
         try {
             this.exportXls();
         } catch (IOException ex) {
-            Logger.getLogger(GerenciaAlunos.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, "Falha na exportação via menu", ex);
         }
     }
 
@@ -288,30 +273,27 @@ public class GerenciaAlunos extends javax.swing.JFrame {
         try {
             this.exportXls();
         } catch (IOException ex) {
-            Logger.getLogger(GerenciaAlunos.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, "Falha na exportação via botão", ex);
         }
     }
 
+    // ✅ ATUALIZADO - Usa NavigationHelper
     private void sobreActionPerformed(java.awt.event.ActionEvent evt) {
-        Sobre tela = new Sobre();
-        tela.setVisible(true);
+        NavigationHelper.showSobre();
     }
 
+    // ✅ ATUALIZADO - Usa TableHelper
     private final void carregaTabela() {
         DefaultTableModel modelo = (DefaultTableModel) this.jTableAlunos.getModel();
-        modelo.setNumRows(0);
-
         List<Aluno> minhalista = objetoAluno.getMinhaLista();
-
-        for (Aluno a : minhalista) {
-            modelo.addRow(new Object[]{
-                a.getId(),
-                a.getNome(),
-                a.getIdade(),
-                a.getCurso(),
-                a.getFase() + "ª",
-            });
-        }
+        
+        TableHelper.loadTable(modelo, minhalista, aluno -> new Object[]{
+            aluno.getId(),
+            aluno.getNome(),
+            aluno.getIdade(),
+            aluno.getCurso(),
+            aluno.getFase() + "ª"
+        });
     }
 
     public static void main(String args[]) {
@@ -324,7 +306,7 @@ public class GerenciaAlunos extends javax.swing.JFrame {
                 }
             }
         } catch (Exception ex) {
-            Logger.getLogger(GerenciaAlunos.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, "Erro ao configurar Look and Feel", ex);
         }
 
         java.awt.EventQueue.invokeLater(() -> new GerenciaAlunos().setVisible(true));
