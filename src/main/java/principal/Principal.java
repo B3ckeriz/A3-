@@ -5,17 +5,9 @@ import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import view.TelaLogin;
 
-// MAIN CLASS
 public class Principal {
     public static void main(String[] args) {
-        // Bloco try catch para capturar errors provenientes de tentativa de executar o tema escuro
-        try {
-            FlatDarkLaf.setup();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // Opções de tema
+        // Determina a escolha inicial com interação gráfica
         String[] options = {"Claro", "Escuro"};
         int n = JOptionPane.showOptionDialog(
                 null,
@@ -28,28 +20,35 @@ public class Principal {
                 options[0]
         );
 
-        // Execução condicional com base no tema escolhido pelo usuário
-        if (n == 0) { // Tema Claro
-            java.awt.EventQueue.invokeLater(new Runnable() {
-                public void run() {
-                    try {
-                        FlatLightLaf.setup();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    new TelaLogin().setVisible(true);
+        executarSistema(n); // Chama o método com a lógica principal
+    }
+
+    // Método separado para execução do sistema com base na escolha do tema
+    public static void executarSistema(int escolhaTema) {
+        try {
+            FlatDarkLaf.setup(); // Define um tema inicial seguro
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Lógica condicional baseada no tema escolhido
+        if (escolhaTema == 0) { // Tema Claro
+            java.awt.EventQueue.invokeLater(() -> {
+                try {
+                    FlatLightLaf.setup();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+                new TelaLogin().setVisible(true);
             });
         } else { // Tema Escuro
-            java.awt.EventQueue.invokeLater(new Runnable() {
-                public void run() {
-                    try {
-                        FlatDarkLaf.setup();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    new TelaLogin().setVisible(true);
+            java.awt.EventQueue.invokeLater(() -> {
+                try {
+                    FlatDarkLaf.setup();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+                new TelaLogin().setVisible(true);
             });
         }
     }
