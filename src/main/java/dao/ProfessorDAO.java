@@ -3,19 +3,24 @@ package dao;
 import model.Professor;
 import java.sql.*;
 import java.util.ArrayList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ProfessorDAO {
 
     private Connection conn;
     private String url = "jdbc:sqlite:database.db";
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProfessorDAO.class);
 
     public ProfessorDAO() {
         try {
             this.conn = DriverManager.getConnection(url);
             criarTabelaSeNecessario();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Erro ao conectar ao banco de dados", e);
         }
+
     }
 
     /** Usado SOMENTE em teste automatizado */
@@ -25,8 +30,9 @@ public class ProfessorDAO {
             this.conn = DriverManager.getConnection(url);
             criarTabelaSeNecessario();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Erro ao conectar ao banco de dados", e);
         }
+
     }
 
     public Connection getConexao() {
@@ -59,8 +65,9 @@ public class ProfessorDAO {
                 return rs.getInt("id");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        LOGGER.error("Erro ao conectar ao banco de dados", e);
+    }
+
         return 0;
     }
 
@@ -83,7 +90,7 @@ public class ProfessorDAO {
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace(); // Adicionado log para facilitar depuração
+            LOGGER.error("Erro ao conectar ao banco de dados", e); // Adicionado log para facilitar depuração
             return false;
         }
     }
@@ -145,7 +152,7 @@ public class ProfessorDAO {
                 lista.add(p);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Erro ao conectar ao banco de dados", e);
         }
 
         return lista;
@@ -172,7 +179,7 @@ public class ProfessorDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Erro ao conectar ao banco de dados", e);
         }
         return null;
     }
