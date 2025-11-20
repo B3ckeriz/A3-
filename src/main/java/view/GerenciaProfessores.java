@@ -20,6 +20,9 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 public class GerenciaProfessores extends javax.swing.JFrame {
 
+    // ✅ Logger configurado corretamente
+    private static final Logger LOGGER = Logger.getLogger(GerenciaProfessores.class.getName());
+    
     private final Professor objetoProfessor = new Professor();
 
     public GerenciaProfessores() {
@@ -161,6 +164,7 @@ public class GerenciaProfessores extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }
 
+    // ✅ MÉTODO CORRIGIDO - Removido e.printStackTrace()
     private void exportXls() throws IOException {
 
         JFileChooser chooser = new JFileChooser();
@@ -228,9 +232,40 @@ public class GerenciaProfessores extends javax.swing.JFrame {
                     book.write(fileOut);
                 }
 
-            } catch (IOException | NumberFormatException e) {
-                e.printStackTrace();
-                throw new RuntimeException("Erro ao exportar para Excel: ");
+                // ✅ Mensagem de sucesso ao usuário
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Arquivo Excel exportado com sucesso em:\n" + path,
+                    "Exportação Concluída",
+                    JOptionPane.INFORMATION_MESSAGE
+                );
+
+            } catch (IOException e) {
+                // ✅ Log seguro para debug (vai para arquivo de log, não para console)
+                LOGGER.log(Level.SEVERE, "Erro ao exportar arquivo Excel para: " + path, e);
+                
+                // ✅ Mensagem amigável ao usuário
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Não foi possível exportar o arquivo.\nVerifique se você tem permissão de escrita no local selecionado.",
+                    "Erro na Exportação",
+                    JOptionPane.ERROR_MESSAGE
+                );
+                
+                throw new RuntimeException("Erro ao exportar para Excel", e);
+                
+            } catch (NumberFormatException e) {
+                // ✅ Log específico para erro de formatação
+                LOGGER.log(Level.WARNING, "Erro ao formatar números durante exportação", e);
+                
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Erro ao processar dados numéricos da tabela.\nVerifique se todos os valores estão formatados corretamente.",
+                    "Erro de Formatação",
+                    JOptionPane.ERROR_MESSAGE
+                );
+                
+                throw new RuntimeException("Erro de formatação ao exportar para Excel", e);
             }
         }
     }
@@ -250,7 +285,7 @@ public class GerenciaProfessores extends javax.swing.JFrame {
             CadastroProfessor tela = new CadastroProfessor();
             tela.setVisible(true);
         } catch (ParseException ex) {
-            Logger.getLogger(GerenciaProfessores.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, "Erro ao abrir tela de cadastro de professor", ex);
         }
     }
 
@@ -263,7 +298,7 @@ public class GerenciaProfessores extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Selecione um cadastro para alterar");
             }
         } catch (ParseException ex) {
-            Logger.getLogger(GerenciaProfessores.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, "Erro ao abrir tela de edição de professor", ex);
         }
     }
 
@@ -338,7 +373,7 @@ public class GerenciaProfessores extends javax.swing.JFrame {
         try {
             exportXls();
         } catch (IOException ex) {
-            Logger.getLogger(GerenciaProfessores.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, "Falha na exportação via menu", ex);
         }
     }
 
@@ -346,7 +381,7 @@ public class GerenciaProfessores extends javax.swing.JFrame {
         try {
             exportXls();
         } catch (IOException ex) {
-            Logger.getLogger(GerenciaProfessores.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, "Falha na exportação via botão", ex);
         }
     }
 
@@ -385,7 +420,7 @@ public class GerenciaProfessores extends javax.swing.JFrame {
                 }
             }
         } catch (Exception ex) {
-            Logger.getLogger(GerenciaProfessores.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, "Erro ao configurar Look and Feel", ex);
         }
 
         java.awt.EventQueue.invokeLater(() -> new GerenciaProfessores().setVisible(true));

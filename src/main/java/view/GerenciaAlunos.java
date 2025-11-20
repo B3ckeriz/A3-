@@ -19,6 +19,9 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 
 public class GerenciaAlunos extends javax.swing.JFrame {
+    
+    // Logger estático para toda a classe
+    private static final Logger LOGGER = Logger.getLogger(GerenciaAlunos.class.getName());
 
     private final Aluno objetoAluno = new Aluno();
 
@@ -166,7 +169,14 @@ public class GerenciaAlunos extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }
 
+        /**
+     * Exporta os dados da tabela de alunos para um arquivo Excel (.xls).
+     * Abre um diálogo para o usuário escolher onde salvar o arquivo.
+     * 
+     * @throws IOException se houver erro ao criar ou escrever no arquivo
+     */
     private void exportXls() throws IOException {
+        // Cria seletor de arquivos
         JFileChooser chooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Arquivos Excel", "xls");
 
@@ -174,13 +184,16 @@ public class GerenciaAlunos extends javax.swing.JFrame {
         chooser.setDialogTitle("Salvar arquivo");
         chooser.setAcceptAllFileFilterUsed(false);
 
+        // Verifica se o usuário aprovou o salvamento
         if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
 
+            // Adiciona extensão .xls ao caminho escolhido
             String path = chooser.getSelectedFile().toString().concat(".xls");
 
             try {
                 File fileXLS = new File(path);
 
+                // Se o arquivo já existe, tenta deletá-lo primeiro
                 if (fileXLS.exists()) {
                     boolean deleted = fileXLS.delete();
                     if (!deleted) {
@@ -188,16 +201,20 @@ public class GerenciaAlunos extends javax.swing.JFrame {
                     }
                 }
 
+                // Cria o novo arquivo
                 if (!fileXLS.createNewFile()) {
                     throw new IOException("Não foi possível criar o arquivo.");
                 }
 
+                // Try-with-resources garante que os recursos sejam fechados automaticamente
                 try (Workbook book = new HSSFWorkbook();
                      FileOutputStream fileOut = new FileOutputStream(fileXLS)) {
 
+                    // Cria uma planilha no arquivo Excel
                     Sheet sheet = book.createSheet("Minha folha de trabalho 1");
                     sheet.setDisplayGridlines(true);
 
+                    // Cria linha de cabeçalho (nomes das colunas)
                     for (int i = 0; i < this.jTableAlunos.getRowCount(); i++) {
                         Row row = sheet.createRow(i);
                         for (int j = 0; j < this.jTableAlunos.getColumnCount(); j++) {
@@ -210,6 +227,7 @@ public class GerenciaAlunos extends javax.swing.JFrame {
 
                     int firstRow = 1;
 
+                    // Preenche as células com os dados da tabela
                     for (int linha = 0; linha < this.jTableAlunos.getRowCount(); linha++) {
                         Row row2 = sheet.createRow(firstRow++);
                         for (int coluna = 0; coluna < this.jTableAlunos.getColumnCount(); coluna++) {
@@ -217,6 +235,8 @@ public class GerenciaAlunos extends javax.swing.JFrame {
                             Cell cell2 = row2.createCell(coluna);
                             Object value = this.jTableAlunos.getValueAt(linha, coluna);
 
+                            // Verifica o tipo de dado e insere apropriadamente
+                            // Isso garante que números sejam tratados como números no Excel
                             if (value instanceof Double) {
                                 cell2.setCellValue((Double) value);
                             } else if (value instanceof Float) {
@@ -224,17 +244,39 @@ public class GerenciaAlunos extends javax.swing.JFrame {
                             } else if (value instanceof Integer) {
                                 cell2.setCellValue((Integer) value);
                             } else {
+                                // Para strings ou valores nulos
                                 cell2.setCellValue(value != null ? value.toString() : "");
                             }
                         }
                     }
 
+                    // Escreve o conteúdo no arquivo
                     book.write(fileOut);
                 }
 
-            } catch (IOException | NumberFormatException e) {
-                e.printStackTrace();
-                throw new RuntimeException("Erro ao exportar para Excel: ");
+            } catch (IOException e) {
+                // Registra erro de entrada/saída no sistema de log
+                // Isso permite rastrear problemas sem expor informações sensíveis no console
+                LOGGER.log(
+                    Level.SEVERE, 
+                    "Erro de IO ao exportar dados para Excel", 
+                    e
+                );
+
+                // Lança exceção com mensagem clara e mantém a causa original para debug
+                throw new RuntimeException("Erro ao exportar para Excel: " + e.getMessage(), e);
+
+            } catch (NumberFormatException e) {
+                // Registra erro ao converter números da tabela
+                // Pode ocorrer se algum dado numérico estiver em formato inválido
+                LOGGER.log(
+                    Level.SEVERE, 
+                    "Erro ao formatar números durante exportação para Excel", 
+                    e
+                );
+
+                // Lança exceção específica para erro de formatação
+                throw new RuntimeException("Erro de formatação ao exportar para Excel: " + e.getMessage(), e);
             }
         }
     }
