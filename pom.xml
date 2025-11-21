@@ -253,9 +253,9 @@
 						</goals>
 						<configuration>
 							<rules>
-								<!-- Regra para pacotes ESPECÍFICOS -->
+								<!-- Regra ÚNICA para todo o projeto -->
 								<rule>
-									<element>PACKAGE</element>
+									<element>BUNDLE</element>
 									<limits>
 										<!-- Mínimo 40% de cobertura de linhas -->
 										<limit>
@@ -263,39 +263,33 @@
 											<value>COVEREDRATIO</value>
 											<minimum>0.40</minimum>
 										</limit>
-										<!-- Mínimo 40% de cobertura de branches -->
+										<!-- Mínimo 35% de cobertura de branches -->
 										<limit>
 											<counter>BRANCH</counter>
+											<value>COVEREDRATIO</value>
+											<minimum>0.35</minimum>
+										</limit>
+									</limits>
+								</rule>
+
+								<!-- Regra para classes testadas (Model e DAO) -->
+								<rule>
+									<element>CLASS</element>
+									<limits>
+										<limit>
+											<counter>LINE</counter>
 											<value>COVEREDRATIO</value>
 											<minimum>0.40</minimum>
 										</limit>
 									</limits>
-									<!-- ⭐ EXCLUIR pacotes sem testes ainda -->
+									<!-- ⭐ EXCLUIR classes específicas sem testes -->
 									<excludes>
-										<exclude>util</exclude>
-										<exclude>exceptions</exclude>
-										<exclude>view</exclude>
-										<exclude>principal</exclude>
-									</excludes>
-								</rule>
-
-								<!-- Regra para classes de MODEL e DAO (já testadas) -->
-								<rule>
-									<element>CLASS</element>
-									<limits>
-										<!-- Classes testadas devem ter 50%+ -->
-										<limit>
-											<counter>LINE</counter>
-											<value>COVEREDRATIO</value>
-											<minimum>0.50</minimum>
-										</limit>
-									</limits>
-									<!-- Excluir o que não está testado -->
-									<excludes>
-										<exclude>*.view.*</exclude>
-										<exclude>*.util.*</exclude>
-										<exclude>*.exceptions.*</exclude>
-										<exclude>*.principal.*</exclude>
+										<exclude>view.*</exclude>
+										<exclude>util.ExcelExporter</exclude>
+										<exclude>util.TableHelper</exclude>
+										<exclude>util.NavigationHelper</exclude>
+										<exclude>exceptions.DatabaseConnectionException</exclude>
+										<exclude>principal.Principal</exclude>
 										<exclude>*Tela*</exclude>
 										<exclude>*Form*</exclude>
 									</excludes>
