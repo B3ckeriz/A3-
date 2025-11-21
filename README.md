@@ -3,6 +3,8 @@ Projeto A3 – Gestão e Qualidade de Software
 
 Video: https://youtu.be/qD37JcIu3_Y?si=8Xr__5OqKGzaZIuc
 
+Slide: https://www.canva.com/design/DAG4cErd7xc/fWrRN880e0tIhmFqVcFZ3A/edit?utm_content=DAG4cErd7xc&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+
 ## Descrição Geral  
 Este repositório contém o desenvolvimento do Plano de Testes e da automação aplicada ao Sistema de Gestão de Alunos e Professores. O projeto utiliza práticas de qualidade de software, incluindo testes automatizados, integração contínua e análise estática do código.
 
