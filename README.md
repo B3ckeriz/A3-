@@ -5,7 +5,7 @@ Projeto A3 – Gestão e Qualidade de Software
 
 [![Vídeo no YouTube](https://img.shields.io/badge/Vídeo-YouTube-red?style=for-the-badge&logo=youtube)](https://youtu.be/t6G6Fhsl-7Q?si=Vju25y4o-gDqt3K0)
 [![Slide no Canva](https://img.shields.io/badge/Slide-Canva-00C4CC?style=for-the-badge&logo=canva&logoColor=white)](https://www.canva.com/design/DAG4cErd7xc/fWrRN880e0tIhmFqVcFZ3A/edit?utm_content=DAG4cErd7xc&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
-[![Relatório](https://img.shields.io/badge/Relatório-PDF-red?style=for-the-badge)](src/main/java/view/A3%20Gestão%20e%20Qualidade%20de%20Software%20(1).pdf)
+[![Relatório](https://img.shields.io/badge/Relatório-PDF-red?style=for-the-badge)](src/main/java/view/A3%20Gestão%20e%20Qualidade%20de%20Software%20(2).pdf)
 
 
 ## Descrição Geral  
