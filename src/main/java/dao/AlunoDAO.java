@@ -5,7 +5,6 @@ import model.Aluno;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.*;
 import exceptions.DatabaseConnectionException;
 
 public class AlunoDAO {
@@ -90,7 +89,7 @@ public class AlunoDAO {
             }
 
         } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao carregar lista", ex);
+            throw new DatabaseConnectionException("Erro ao carregar lista", ex);
         }
 
         return lista;
