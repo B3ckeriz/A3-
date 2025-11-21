@@ -1,3 +1,5 @@
+[![Build Status](https://github.com/B3ckeriz/A3gerenciamentoDeAlunos/actions/workflows/maven.yml/badge.svg)](https://github.com/B3ckeriz/A3gerenciamentoDeAlunos/actions) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=B3ckeriz_A3-&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=B3ckeriz_A3-) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=B3ckeriz_A3-&metric=coverage)](https://sonarcloud.io/summary/new_code?id=B3ckeriz_A3-) [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=B3ckeriz_A3-&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=B3ckeriz_A3-) 
+
 # Sistema de Gestão de Alunos e Professores  
 Projeto A3 – Gestão e Qualidade de Software
 
@@ -23,10 +25,7 @@ O objetivo principal é demonstrar a aplicação de testes unitários e de integ
 
 ---
 
-## Integração Contínua e Qualidade  
-[![Build Status](https://github.com/B3ckeriz/A3gerenciamentoDeAlunos/actions/workflows/maven.yml/badge.svg)](https://github.com/B3ckeriz/A3gerenciamentoDeAlunos/actions) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=B3ckeriz_A3-&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=B3ckeriz_A3-) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=B3ckeriz_A3-&metric=coverage)](https://sonarcloud.io/summary/new_code?id=B3ckeriz_A3-) [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=B3ckeriz_A3-&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=B3ckeriz_A3-) 
 
----
 
 ## Integrantes  
 | Nome | RA | GitHub |
