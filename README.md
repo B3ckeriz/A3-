@@ -1,9 +1,10 @@
 # Sistema de Gestão de Alunos e Professores  
 Projeto A3 – Gestão e Qualidade de Software
 
-Video: https://youtu.be/qD37JcIu3_Y?si=8Xr__5OqKGzaZIuc
+[![Vídeo no YouTube](https://img.shields.io/badge/Vídeo-YouTube-red?style=for-the-badge&logo=youtube)](https://youtu.be/qD37JcIu3_Y?si=8Xr__5OqKGzaZIuc)
+[![Slide no Canva](https://img.shields.io/badge/Slide-Canva-00C4CC?style=for-the-badge&logo=canva&logoColor=white)](https://www.canva.com/design/DAG4cErd7xc/fWrRN880e0tIhmFqVcFZ3A/edit?utm_content=DAG4cErd7xc&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+[![Documento no OneDrive](https://img.shields.io/badge/Documento-OneDrive-0078D4?style=for-the-badge&logo=microsoft-onedrive&logoColor=white)](https://1drv.ms/w/c/76ff8fbfe36afa3b/EWW53t46HQ5Jsv7sg4KJgzYBwe3oDnYoFmofERr_sU3q-A?e=ZR3g5B)
 
-Slide: https://www.canva.com/design/DAG4cErd7xc/fWrRN880e0tIhmFqVcFZ3A/edit?utm_content=DAG4cErd7xc&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 
 ## Descrição Geral  
 Este repositório contém o desenvolvimento do Plano de Testes e da automação aplicada ao Sistema de Gestão de Alunos e Professores. O projeto utiliza práticas de qualidade de software, incluindo testes automatizados, integração contínua e análise estática do código.
