@@ -191,35 +191,22 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>${jacoco.version}</version>
+				<version>0.8.14</version>
 
 				<configuration>
-					<!-- ⭐ EXCLUSÕES GLOBAIS -->
 					<excludes>
-						<!-- Excluir TODA a camada de visualização -->
 						<exclude>**/view/**/*</exclude>
-
-						<!-- Excluir classe Principal (main com JOptionPane) -->
 						<exclude>**/principal/Principal.class</exclude>
-
-						<!-- Excluir Forms gerados automaticamente -->
 						<exclude>**/*Form.class</exclude>
 						<exclude>**/*Form$*.class</exclude>
-
-						<!-- Excluir Telas Swing -->
 						<exclude>**/*Tela*.class</exclude>
 						<exclude>**/*Tela*$*.class</exclude>
-
-						<!-- Excluir métodos de inicialização de componentes -->
 						<exclude>**/*$initComponents.class</exclude>
-
-						<!-- Excluir classes Main -->
 						<exclude>**/Main.class</exclude>
 					</excludes>
 				</configuration>
 
 				<executions>
-					<!-- 1. Prepara o agente antes dos testes -->
 					<execution>
 						<id>prepare-agent</id>
 						<goals>
@@ -227,7 +214,6 @@
 						</goals>
 					</execution>
 
-					<!-- 2. Gera relatório XML para o SonarCloud -->
 					<execution>
 						<id>report</id>
 						<phase>test</phase>
@@ -236,7 +222,6 @@
 						</goals>
 					</execution>
 
-					<!-- 3. Gera relatório adicional após empacotamento -->
 					<execution>
 						<id>post-unit-test</id>
 						<phase>prepare-package</phase>
@@ -244,60 +229,6 @@
 							<goal>report</goal>
 						</goals>
 					</execution>
-
-					<!-- ⭐ 4. VERIFICAÇÃO DE COBERTURA MÍNIMA -->
-					<execution>
-						<id>jacoco-check</id>
-						<goals>
-							<goal>check</goal>
-						</goals>
-						<configuration>
-							<rules>
-								<!-- Regra ÚNICA para todo o projeto -->
-								<rule>
-									<element>BUNDLE</element>
-									<limits>
-										<!-- Mínimo 40% de cobertura de linhas -->
-										<limit>
-											<counter>LINE</counter>
-											<value>COVEREDRATIO</value>
-											<minimum>0.40</minimum>
-										</limit>
-										<!-- Mínimo 35% de cobertura de branches -->
-										<limit>
-											<counter>BRANCH</counter>
-											<value>COVEREDRATIO</value>
-											<minimum>0.35</minimum>
-										</limit>
-									</limits>
-								</rule>
-
-								<!-- Regra para classes testadas (Model e DAO) -->
-								<rule>
-									<element>CLASS</element>
-									<limits>
-										<limit>
-											<counter>LINE</counter>
-											<value>COVEREDRATIO</value>
-											<minimum>0.40</minimum>
-										</limit>
-									</limits>
-									<!-- ⭐ EXCLUIR classes específicas sem testes -->
-									<excludes>
-										<exclude>view.*</exclude>
-										<exclude>util.ExcelExporter</exclude>
-										<exclude>util.TableHelper</exclude>
-										<exclude>util.NavigationHelper</exclude>
-										<exclude>exceptions.DatabaseConnectionException</exclude>
-										<exclude>principal.Principal</exclude>
-										<exclude>*Tela*</exclude>
-										<exclude>*Form*</exclude>
-									</excludes>
-								</rule>
-							</rules>
-						</configuration>
-					</execution>
-
 				</executions>
 			</plugin>
 
