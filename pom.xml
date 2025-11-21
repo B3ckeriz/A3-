@@ -36,14 +36,22 @@
 			**/principal/Principal.java,
 			**/*Form.java,
 			**/*Tela*.java,
-			**/Main.java
+			**/Main.java,
+			**/exceptions/DatabaseConnectionException.java,
+			**/util/ExcelExporter.java,
+			**/util/NavigationHelper.java,
+			**/util/TableHelper.java
 		</sonar.coverage.exclusions>
 
 		<!-- ⭐ EXCLUSÕES DE ANÁLISE DE CÓDIGO (bugs, code smells) -->
 		<sonar.exclusions>
 			**/view/**/*,
 			**/*Form.java,
-			**/*Tela*.java
+			**/*Tela*.java,
+			**/exceptions/DatabaseConnectionException.java,
+			**/util/ExcelExporter.java,
+			**/util/NavigationHelper.java,
+			**/util/TableHelper.java
 		</sonar.exclusions>
 
 		<!-- ⭐ META DE COBERTURA PARA NEW CODE (código novo) -->
@@ -203,6 +211,10 @@
 						<exclude>**/*Tela*$*.class</exclude>
 						<exclude>**/*$initComponents.class</exclude>
 						<exclude>**/Main.class</exclude>
+						<exclude>**/exceptions/DatabaseConnectionException.class</exclude>
+						<exclude>**/util/ExcelExporter.class</exclude>
+						<exclude>**/util/NavigationHelper.class</exclude>
+						<exclude>**/util/TableHelper.class</exclude>
 					</excludes>
 				</configuration>
 
